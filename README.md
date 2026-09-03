@@ -12,9 +12,8 @@ Windows จะเตือนและบล็อกตัวติดตั้
 
 | ระบบ | ลิงก์ |
 |---|---|
-| Windows 64-bit (ปกติ) | [Agent-1-Setup.exe](https://github.com/mister-1/agent-1-releases/releases/latest/download/Agent-1-Setup.exe) |
+| Windows 10/11 | [Agent-1-Setup.exe](https://github.com/mister-1/agent-1-releases/releases/latest/download/Agent-1-Setup.exe) |
 | macOS (Apple Silicon) | [Agent-1-macOS-Apple-Silicon.dmg](https://github.com/mister-1/agent-1-releases/releases/latest/download/Agent-1-macOS-Apple-Silicon.dmg) |
-| ไฟล์ทั้งหมด (รวมตัว 32-bit) | [หน้ารุ่นล่าสุด](https://github.com/mister-1/agent-1-releases/releases/latest) |
 
 ลิงก์เหล่านี้ชี้ไปที่รุ่นล่าสุดเสมอ ติดตั้งครั้งเดียวแล้วแอปอัปเดตตัวเองต่อได้ ไม่ต้องโหลดมาลงทับอีก
 
