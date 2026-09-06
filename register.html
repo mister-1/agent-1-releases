@@ -316,8 +316,19 @@ footer a { color: inherit; }
       <legend>ข้อมูลของคุณ</legend>
       <div class="row">
         <div class="field">
-          <label for="owner_name">ชื่อ-นามสกุล<span class="req">*</span></label>
-          <input type="text" id="owner_name" name="owner_name" autocomplete="name" maxlength="120" required>
+          <label for="first_name">ชื่อ<span class="req">*</span></label>
+          <input type="text" id="first_name" name="first_name" autocomplete="given-name" maxlength="80" required>
+        </div>
+        <div class="field">
+          <label for="last_name">นามสกุล<span class="req">*</span></label>
+          <input type="text" id="last_name" name="last_name" autocomplete="family-name" maxlength="80" required>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="owner_email">อีเมล<span class="req">*</span></label>
+          <input type="email" id="owner_email" name="owner_email" autocomplete="email" inputmode="email" maxlength="160" required placeholder="you@example.com">
+          <span class="hint">ใช้ยืนยันตัวตนเวลาย้ายเครื่อง — ต้องเป็นอีเมลที่คุณเข้าใช้ได้จริง</span>
         </div>
         <div class="field">
           <label for="inbox_name">ชื่อที่ใช้ทักในแชท</label>
@@ -325,34 +336,23 @@ footer a { color: inherit; }
           <span class="hint">ชื่อที่โชว์ตอนคุณทักมาทาง LINE หรือ Facebook — ให้ผู้ดูแลจับคู่กับแชทได้ถูกคน</span>
         </div>
       </div>
-      <div class="field">
-        <label for="owner_email">อีเมล<span class="req">*</span></label>
-        <input type="email" id="owner_email" name="owner_email" autocomplete="email" inputmode="email" maxlength="160" required placeholder="you@example.com">
-        <span class="hint">ใช้ยืนยันตัวตนเวลาย้ายเครื่องหรือปลดเครื่องเดิม — ต้องเป็นอีเมลที่คุณเข้าใช้ได้จริง</span>
-      </div>
     </fieldset>
 
     <fieldset>
-      <legend>ช่องทางติดต่อ <small>ใส่อย่างน้อยหนึ่งช่อง — ผู้ดูแลจะส่ง License Key ให้ทางนี้</small></legend>
+      <legend>ช่องทางติดต่อ <small>ผู้ดูแลจะส่ง License Key ให้ทางนี้</small></legend>
       <div class="row">
         <div class="field">
-          <label for="phone">เบอร์โทรศัพท์</label>
-          <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" maxlength="40" placeholder="08X-XXX-XXXX">
+          <label for="phone">เบอร์โทรศัพท์<span class="req">*</span></label>
+          <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" maxlength="40" required placeholder="08X-XXX-XXXX">
         </div>
         <div class="field">
           <label for="contact_line">LINE ID</label>
           <input type="text" id="contact_line" name="contact_line" maxlength="200" placeholder="@lineid หรือลิงก์ line.me">
         </div>
       </div>
-      <div class="row">
-        <div class="field">
-          <label for="contact_facebook">Facebook</label>
-          <input type="text" id="contact_facebook" name="contact_facebook" maxlength="200" placeholder="ลิงก์โปรไฟล์ หรือชื่อบัญชี">
-        </div>
-        <div class="field">
-          <label for="contact_tel">เบอร์สำรอง</label>
-          <input type="tel" id="contact_tel" name="contact_tel" inputmode="tel" maxlength="40" placeholder="ถ้ามี">
-        </div>
+      <div class="field">
+        <label for="contact_tel">เบอร์สำรอง</label>
+        <input type="tel" id="contact_tel" name="contact_tel" inputmode="tel" maxlength="40" placeholder="ถ้ามี">
       </div>
     </fieldset>
 
@@ -367,10 +367,6 @@ footer a { color: inherit; }
           <label><input type="radio" name="platform" value="unsure"> ยังไม่แน่ใจ</label>
         </div>
         <span class="hint">รองรับ Windows 10/11 และ Mac ชิป M1 ขึ้นไป — Mac ชิป Intel ยังไม่รองรับ</span>
-      </div>
-      <div class="field">
-        <label for="contact_youtube">ช่อง YouTube / TikTok ของคุณ</label>
-        <input type="text" id="contact_youtube" name="contact_youtube" maxlength="200" placeholder="ถ้ามี — ลิงก์ช่อง หรือ @ชื่อช่อง">
       </div>
       <div class="field">
         <label for="message">ข้อความถึงผู้ดูแล</label>
@@ -448,7 +444,7 @@ footer a { color: inherit; }
     try { localStorage.removeItem(SENT_KEY); } catch (err) { /* ignore */ }
     done.classList.remove('show');
     form.style.display = '';
-    form.elements.owner_name.focus();
+    form.elements.first_name.focus();
   });
 
   form.addEventListener('submit', async function (e) {
@@ -456,35 +452,31 @@ footer a { color: inherit; }
     clearError();
 
     var email = val('owner_email').toLowerCase();
-    var name = val('owner_name');
+    var firstName = val('first_name');
+    var lastName = val('last_name');
     var missing = [];
-    if (!name) { missing.push('ชื่อ-นามสกุล'); form.elements.owner_name.classList.add('bad'); }
+    if (!firstName) { missing.push('ชื่อ'); form.elements.first_name.classList.add('bad'); }
+    if (!lastName) { missing.push('นามสกุล'); form.elements.last_name.classList.add('bad'); }
     if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
       missing.push(email ? 'อีเมล (รูปแบบไม่ถูกต้อง)' : 'อีเมล');
       form.elements.owner_email.classList.add('bad');
     }
-    if (!val('phone') && !val('contact_line') && !val('contact_facebook')) {
-      missing.push('ช่องทางติดต่ออย่างน้อยหนึ่งช่อง (เบอร์โทร LINE หรือ Facebook)');
-      form.elements.phone.classList.add('bad');
-      form.elements.contact_line.classList.add('bad');
-      form.elements.contact_facebook.classList.add('bad');
-    }
+    if (!val('phone')) { missing.push('เบอร์โทรศัพท์'); form.elements.phone.classList.add('bad'); }
     if (missing.length) {
       showError('กรุณากรอก: ' + missing.join(' · '));
-      var first = form.querySelector('input.bad');
-      if (first) first.focus();
+      var firstBad = form.querySelector('input.bad');
+      if (firstBad) firstBad.focus();
       return;
     }
 
     var platformEl = form.querySelector('input[name="platform"]:checked');
     var payload = {
       owner_email: email,
-      owner_name: name,
+      first_name: firstName,
+      last_name: lastName,
       inbox_name: val('inbox_name'),
       phone: val('phone'),
       contact_line: val('contact_line'),
-      contact_facebook: val('contact_facebook'),
-      contact_youtube: val('contact_youtube'),
       contact_tel: val('contact_tel'),
       platform: platformEl ? platformEl.value : '',
       message: val('message'),
