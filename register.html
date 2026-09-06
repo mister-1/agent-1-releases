@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent-1 — ลงทะเบียนขอ License Key</title>
+<meta name="description" content="กรอกข้อมูลติดต่อเพื่อให้ผู้ดูแล Agent-1 ออก License Key ให้ — ใช้เวลาไม่ถึง 2 นาที">
+<meta name="robots" content="noindex">
+<!--
+  หน้าฟอร์มลงทะเบียนสำหรับลูกค้า — เผยแพร่คู่กับคู่มือด้วย npm run guide:publish
+  ได้ลิงก์คงที่ https://mister-1.github.io/agent-1-releases/register.html
+
+  ส่งข้อมูลเข้า edge function license/request (supabase/functions/license/index.ts)
+  ไปพักในตาราง license_requests รอแอดมินตรวจและอนุมัติในหน้าแอดมิน แท็บ "คำขอลงทะเบียน"
+  ไม่มีใครได้ซีเรียลจากหน้านี้โดยตรง
+
+  ใช้ฟอนต์ระบบแทนการฝังฟอนต์อย่างคู่มือ — หน้านี้ต้องโหลดไวบนมือถือที่กดลิงก์มาจากแชท
+  แนบ ?src=ชื่อช่องทาง ท้ายลิงก์ได้ (เช่น ?src=fb) จะติดไปกับคำขอให้แอดมินเห็นว่ามาจากไหน
+-->
+<style>
+:root {
+  --bg: oklch(0.982 0.006 248);
+  --surface: oklch(1 0 0);
+  --sunken: oklch(0.958 0.010 248);
+  --line: oklch(0.898 0.014 248);
+  --line-soft: oklch(0.938 0.010 248);
+  --text: oklch(0.235 0.032 250);
+  --muted: oklch(0.462 0.030 248);
+  --subtle: oklch(0.585 0.026 248);
+  --primary: oklch(0.498 0.152 248);
+  --primary-strong: oklch(0.418 0.148 250);
+  --primary-ghost: oklch(0.498 0.152 248 / 0.10);
+  --danger: oklch(0.518 0.176 25);
+  --danger-ghost: oklch(0.620 0.190 25 / 0.10);
+  --ok: oklch(0.462 0.110 160);
+  --ok-ghost: oklch(0.560 0.120 160 / 0.12);
+  --shadow: 0 1px 2px oklch(0.235 0.032 250 / 0.06), 0 8px 24px oklch(0.235 0.032 250 / 0.05);
+  --f-sans: 'Leelawadee UI', 'Noto Sans Thai', 'Thonburi', 'Sukhumvit Set', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --f-mono: ui-monospace, 'Cascadia Mono', 'Segoe UI Mono', Consolas, monospace;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: oklch(0.158 0.024 248);
+    --surface: oklch(0.205 0.029 248);
+    --sunken: oklch(0.128 0.020 248);
+    --line: oklch(0.302 0.036 248);
+    --line-soft: oklch(0.248 0.032 248);
+    --text: oklch(0.965 0.008 250);
+    --muted: oklch(0.752 0.024 248);
+    --subtle: oklch(0.600 0.028 248);
+    --primary: oklch(0.700 0.160 248);
+    --primary-strong: oklch(0.788 0.150 250);
+    --primary-ghost: oklch(0.685 0.168 248 / 0.16);
+    --danger: oklch(0.735 0.145 25);
+    --danger-ghost: oklch(0.700 0.160 25 / 0.14);
+    --ok: oklch(0.760 0.120 162);
+    --ok-ghost: oklch(0.720 0.130 160 / 0.14);
+    --shadow: 0 1px 2px oklch(0.100 0.020 248 / 0.5), 0 10px 30px oklch(0.100 0.020 248 / 0.35);
+  }
+}
+:root[data-theme="dark"] {
+  --bg: oklch(0.158 0.024 248);
+  --surface: oklch(0.205 0.029 248);
+  --sunken: oklch(0.128 0.020 248);
+  --line: oklch(0.302 0.036 248);
+  --line-soft: oklch(0.248 0.032 248);
+  --text: oklch(0.965 0.008 250);
+  --muted: oklch(0.752 0.024 248);
+  --subtle: oklch(0.600 0.028 248);
+  --primary: oklch(0.700 0.160 248);
+  --primary-strong: oklch(0.788 0.150 250);
+  --primary-ghost: oklch(0.685 0.168 248 / 0.16);
+  --danger: oklch(0.735 0.145 25);
+  --danger-ghost: oklch(0.700 0.160 25 / 0.14);
+  --ok: oklch(0.760 0.120 162);
+  --ok-ghost: oklch(0.720 0.130 160 / 0.14);
+  --shadow: 0 1px 2px oklch(0.100 0.020 248 / 0.5), 0 10px 30px oklch(0.100 0.020 248 / 0.35);
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--f-sans);
+  font-size: 15px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 40px 20px 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* ── หัวเรื่อง ── */
+.masthead { display: flex; flex-direction: column; gap: 12px; }
+.eyebrow {
+  font-family: var(--f-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--primary);
+  font-weight: 600;
+  margin: 0;
+}
+h1 {
+  margin: 0;
+  font-size: clamp(26px, 5vw, 36px);
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+.lede { margin: 0; color: var(--muted); font-size: 15.5px; max-width: 58ch; }
+.lede b { color: var(--text); font-weight: 600; }
+
+/* ── การ์ดฟอร์ม ── */
+.card {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 22px 22px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+fieldset + fieldset { border-top: 1px solid var(--line-soft); }
+legend {
+  float: left;
+  width: 100%;
+  padding: 0;
+  margin: 0 0 4px;
+  font-size: 15px;
+  font-weight: 700;
+}
+legend small { display: block; font-weight: 400; font-size: 12.5px; color: var(--subtle); }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 560px) { .row { grid-template-columns: 1fr; } }
+
+.field { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.field label { font-size: 13px; font-weight: 600; color: var(--muted); }
+.field label .req { color: var(--danger); margin-left: 3px; }
+.field .hint { font-size: 12px; color: var(--subtle); line-height: 1.5; }
+input[type="text"], input[type="email"], input[type="tel"], textarea {
+  width: 100%;
+  font: inherit;
+  font-size: 15px;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 12px;
+  outline: none;
+  transition: border-color .12s, box-shadow .12s;
+}
+input:focus, textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-ghost);
+}
+input.bad { border-color: var(--danger); }
+textarea { resize: vertical; min-height: 84px; }
+
+.choices { display: flex; flex-wrap: wrap; gap: 8px; }
+.choices label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 7px 13px;
+  font-size: 13.5px;
+  cursor: pointer;
+  background: var(--surface);
+  user-select: none;
+}
+.choices label:has(input:checked) {
+  border-color: var(--primary);
+  background: var(--primary-ghost);
+  color: var(--primary-strong);
+  font-weight: 600;
+}
+.choices input { margin: 0; accent-color: var(--primary); }
+
+/* honeypot — ซ่อนให้พ้นตาคนจริง แต่บอทที่อ่าน DOM ยังเห็นเป็นช่องปกติ */
+.hp { position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+
+.actions {
+  padding: 18px 22px 22px;
+  border-top: 1px solid var(--line-soft);
+  background: var(--sunken);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.privacy { margin: 0; font-size: 12.5px; color: var(--subtle); line-height: 1.6; }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 13px 18px;
+  border-radius: 12px;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  border: 1px solid transparent;
+  background: var(--primary);
+  color: #fff;
+  cursor: pointer;
+  transition: background .12s, opacity .12s;
+}
+.btn:hover { background: var(--primary-strong); }
+.btn:disabled { opacity: .6; cursor: progress; }
+.btn.ghost { background: var(--surface); color: var(--text); border-color: var(--line); font-weight: 600; }
+.btn.ghost:hover { background: var(--sunken); }
+
+.alert {
+  display: none;
+  padding: 11px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--danger);
+  background: var(--danger-ghost);
+  color: var(--danger);
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.55;
+}
+.alert.show { display: block; }
+
+/* ── หลังส่งสำเร็จ ── */
+.done {
+  display: none;
+  border: 1px solid var(--ok);
+  border-radius: 18px;
+  background: linear-gradient(180deg, var(--ok-ghost), transparent 70%), var(--surface);
+  box-shadow: var(--shadow);
+  padding: 24px 22px;
+  flex-direction: column;
+  gap: 14px;
+}
+.done.show { display: flex; }
+.done h2 { margin: 0; font-size: 20px; font-weight: 800; display: flex; align-items: center; gap: 10px; }
+.done h2 .tick {
+  display: inline-grid;
+  place-items: center;
+  width: 30px; height: 30px;
+  border-radius: 999px;
+  background: var(--ok);
+  color: #fff;
+  font-size: 16px;
+}
+.done p { margin: 0; color: var(--muted); }
+.done p b { color: var(--text); font-weight: 600; }
+.done ol { margin: 0; padding-left: 22px; color: var(--muted); display: flex; flex-direction: column; gap: 6px; }
+.done ol b { color: var(--text); font-weight: 600; }
+.done .links { display: flex; flex-wrap: wrap; gap: 10px; padding-top: 4px; }
+.done .links .btn { width: auto; }
+.done .again { font-size: 12.5px; color: var(--subtle); }
+.done .again a { color: inherit; }
+
+footer {
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+  font-size: 12.5px;
+  color: var(--subtle);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+}
+footer a { color: inherit; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="eyebrow">Agent-1 · ลงทะเบียนขอใบอนุญาต</p>
+    <h1>กรอกข้อมูลเพื่อรับ License Key</h1>
+    <p class="lede">
+      ใช้เวลาไม่ถึง 2 นาที <b>ผู้ดูแลจะตรวจสอบแล้วส่ง License Key ให้ทางช่องทางที่คุณให้ไว้</b>
+      ระหว่างรอ อ่านคู่มือและดาวน์โหลดตัวติดตั้งเตรียมไว้ได้เลย
+    </p>
+  </header>
+
+  <section class="done" id="done" aria-live="polite">
+    <h2><span class="tick">✓</span> ได้รับข้อมูลของคุณแล้ว</h2>
+    <p id="done-text">ผู้ดูแลจะตรวจสอบและติดต่อกลับพร้อม License Key ทางช่องทางที่คุณให้ไว้</p>
+    <ol>
+      <li><b>อ่านคู่มือก่อนติดตั้ง</b> — Windows จะเตือนและบล็อกตัวติดตั้ง เป็นเรื่องปกติ ในคู่มือมีวิธีปลดล็อกทีละจอ</li>
+      <li><b>ดาวน์โหลดตัวติดตั้ง</b>ให้ตรงกับเครื่องของคุณ</li>
+      <li>พอได้ License Key แล้ว เปิดโปรแกรมแล้วกรอก — ทำตามคู่มือขั้นที่ 4 เป็นต้นไป</li>
+    </ol>
+    <div class="links">
+      <a class="btn" href="https://mister-1.github.io/agent-1-releases/">อ่านคู่มือก่อนติดตั้ง</a>
+      <a class="btn ghost" href="https://github.com/mister-1/agent-1-releases/releases/latest/download/Agent-1-Setup.exe">ดาวน์โหลด Windows</a>
+      <a class="btn ghost" href="https://github.com/mister-1/agent-1-releases/releases/latest/download/Agent-1-macOS-Apple-Silicon.dmg">ดาวน์โหลด Mac (Apple Silicon)</a>
+    </div>
+    <p class="again">กรอกผิดหรืออยากแก้ข้อมูล? <a href="#" id="again">ส่งข้อมูลใหม่อีกครั้ง</a> — ผู้ดูแลจะเห็นทั้งสองครั้งและใช้ครั้งล่าสุด</p>
+  </section>
+
+  <form class="card" id="form" novalidate>
+    <fieldset>
+      <legend>ข้อมูลของคุณ</legend>
+      <div class="row">
+        <div class="field">
+          <label for="owner_name">ชื่อ-นามสกุล<span class="req">*</span></label>
+          <input type="text" id="owner_name" name="owner_name" autocomplete="name" maxlength="120" required>
+        </div>
+        <div class="field">
+          <label for="inbox_name">ชื่อที่ใช้ทักในแชท</label>
+          <input type="text" id="inbox_name" name="inbox_name" autocomplete="nickname" maxlength="120" placeholder="ชื่อเล่น / ชื่อโปรไฟล์">
+          <span class="hint">ชื่อที่โชว์ตอนคุณทักมาทาง LINE หรือ Facebook — ให้ผู้ดูแลจับคู่กับแชทได้ถูกคน</span>
+        </div>
+      </div>
+      <div class="field">
+        <label for="owner_email">อีเมล<span class="req">*</span></label>
+        <input type="email" id="owner_email" name="owner_email" autocomplete="email" inputmode="email" maxlength="160" required placeholder="you@example.com">
+        <span class="hint">ใช้ยืนยันตัวตนเวลาย้ายเครื่องหรือปลดเครื่องเดิม — ต้องเป็นอีเมลที่คุณเข้าใช้ได้จริง</span>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>ช่องทางติดต่อ <small>ใส่อย่างน้อยหนึ่งช่อง — ผู้ดูแลจะส่ง License Key ให้ทางนี้</small></legend>
+      <div class="row">
+        <div class="field">
+          <label for="phone">เบอร์โทรศัพท์</label>
+          <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" maxlength="40" placeholder="08X-XXX-XXXX">
+        </div>
+        <div class="field">
+          <label for="contact_line">LINE ID</label>
+          <input type="text" id="contact_line" name="contact_line" maxlength="200" placeholder="@lineid หรือลิงก์ line.me">
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label for="contact_facebook">Facebook</label>
+          <input type="text" id="contact_facebook" name="contact_facebook" maxlength="200" placeholder="ลิงก์โปรไฟล์ หรือชื่อบัญชี">
+        </div>
+        <div class="field">
+          <label for="contact_tel">เบอร์สำรอง</label>
+          <input type="tel" id="contact_tel" name="contact_tel" inputmode="tel" maxlength="40" placeholder="ถ้ามี">
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>การใช้งาน</legend>
+      <div class="field">
+        <label>เครื่องที่จะติดตั้ง</label>
+        <div class="choices">
+          <label><input type="radio" name="platform" value="windows"> Windows</label>
+          <label><input type="radio" name="platform" value="mac"> Mac (ชิป Apple Silicon)</label>
+          <label><input type="radio" name="platform" value="both"> ทั้งสองแบบ</label>
+          <label><input type="radio" name="platform" value="unsure"> ยังไม่แน่ใจ</label>
+        </div>
+        <span class="hint">รองรับ Windows 10/11 และ Mac ชิป M1 ขึ้นไป — Mac ชิป Intel ยังไม่รองรับ</span>
+      </div>
+      <div class="field">
+        <label for="contact_youtube">ช่อง YouTube / TikTok ของคุณ</label>
+        <input type="text" id="contact_youtube" name="contact_youtube" maxlength="200" placeholder="ถ้ามี — ลิงก์ช่อง หรือ @ชื่อช่อง">
+      </div>
+      <div class="field">
+        <label for="message">ข้อความถึงผู้ดูแล</label>
+        <textarea id="message" name="message" maxlength="1000" placeholder="เช่น แพ็กเกจที่สนใจ จำนวนเครื่องที่จะใช้ หรือคำถามอื่น ๆ"></textarea>
+      </div>
+    </fieldset>
+
+    <div class="hp" aria-hidden="true">
+      <label for="website">Website</label>
+      <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+    </div>
+
+    <div class="actions">
+      <div class="alert" id="alert" role="alert"></div>
+      <button class="btn" type="submit" id="submit">ส่งข้อมูลให้ผู้ดูแล</button>
+      <p class="privacy">
+        ข้อมูลนี้ใช้เพื่อออกใบอนุญาตและติดต่อเรื่องการใช้งาน Agent-1 เท่านั้น ไม่ส่งต่อให้ใคร
+        และไม่ใช้ส่งโฆษณา — แจ้งผู้ดูแลได้ทุกเมื่อถ้าต้องการให้ลบข้อมูล
+      </p>
+    </div>
+  </form>
+
+  <footer>
+    <span>มีใบอนุญาตอยู่แล้ว? ไม่ต้องกรอกใหม่ — เปิดโปรแกรมแล้วกรอก License Key เดิมได้เลย</span>
+    <span>คู่มือฉบับเต็ม: <a href="https://mister-1.github.io/agent-1-releases/">mister-1.github.io/agent-1-releases</a></span>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  // เส้นทางเดียวกับที่แอปใช้ยืนยันใบอนุญาต (LICENSE_API_URL ใน packages/shared/src/license-api.ts) + /request
+  var API = 'https://isybspjpolddloxxnsli.supabase.co/functions/v1/license/request';
+  var SENT_KEY = 'a1_register_sent';
+
+  var form = document.getElementById('form');
+  var done = document.getElementById('done');
+  var doneText = document.getElementById('done-text');
+  var alertBox = document.getElementById('alert');
+  var submit = document.getElementById('submit');
+  var source = (new URLSearchParams(location.search).get('src') || '').slice(0, 40);
+
+  function showError(msg) {
+    alertBox.textContent = msg;
+    alertBox.classList.add('show');
+  }
+  function clearError() {
+    alertBox.textContent = '';
+    alertBox.classList.remove('show');
+    form.querySelectorAll('input.bad').forEach(function (el) { el.classList.remove('bad'); });
+  }
+  function val(name) {
+    var el = form.elements[name];
+    return el ? String(el.value || '').trim() : '';
+  }
+  function showDone(email, duplicate) {
+    doneText.textContent = duplicate
+      ? 'อีเมล ' + email + ' มีคำขอที่รอตรวจอยู่แล้ว — ไม่ต้องส่งซ้ำ ผู้ดูแลจะติดต่อกลับทางช่องทางที่ให้ไว้'
+      : 'ผู้ดูแลจะตรวจสอบและติดต่อกลับพร้อม License Key ทางช่องทางที่คุณให้ไว้ (อีเมลที่ลงทะเบียน: ' + email + ')';
+    done.classList.add('show');
+    form.style.display = 'none';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // เคยส่งจากเครื่องนี้แล้ว — เปิดมาอีกทีให้เห็นว่าส่งแล้ว ไม่ต้องเดาว่าต้องกรอกซ้ำไหม
+  try {
+    var prev = JSON.parse(localStorage.getItem(SENT_KEY) || 'null');
+    if (prev && prev.email && Date.now() - (prev.at || 0) < 7 * 24 * 3600 * 1000) {
+      showDone(prev.email, false);
+    }
+  } catch (e) { /* ไม่มี localStorage ก็แค่แสดงฟอร์มตามปกติ */ }
+
+  document.getElementById('again').addEventListener('click', function (e) {
+    e.preventDefault();
+    try { localStorage.removeItem(SENT_KEY); } catch (err) { /* ignore */ }
+    done.classList.remove('show');
+    form.style.display = '';
+    form.elements.owner_name.focus();
+  });
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    clearError();
+
+    var email = val('owner_email').toLowerCase();
+    var name = val('owner_name');
+    var missing = [];
+    if (!name) { missing.push('ชื่อ-นามสกุล'); form.elements.owner_name.classList.add('bad'); }
+    if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+      missing.push(email ? 'อีเมล (รูปแบบไม่ถูกต้อง)' : 'อีเมล');
+      form.elements.owner_email.classList.add('bad');
+    }
+    if (!val('phone') && !val('contact_line') && !val('contact_facebook')) {
+      missing.push('ช่องทางติดต่ออย่างน้อยหนึ่งช่อง (เบอร์โทร LINE หรือ Facebook)');
+      form.elements.phone.classList.add('bad');
+      form.elements.contact_line.classList.add('bad');
+      form.elements.contact_facebook.classList.add('bad');
+    }
+    if (missing.length) {
+      showError('กรุณากรอก: ' + missing.join(' · '));
+      var first = form.querySelector('input.bad');
+      if (first) first.focus();
+      return;
+    }
+
+    var platformEl = form.querySelector('input[name="platform"]:checked');
+    var payload = {
+      owner_email: email,
+      owner_name: name,
+      inbox_name: val('inbox_name'),
+      phone: val('phone'),
+      contact_line: val('contact_line'),
+      contact_facebook: val('contact_facebook'),
+      contact_youtube: val('contact_youtube'),
+      contact_tel: val('contact_tel'),
+      platform: platformEl ? platformEl.value : '',
+      message: val('message'),
+      source: source,
+      website: val('website')
+    };
+
+    submit.disabled = true;
+    submit.textContent = 'กำลังส่ง…';
+    try {
+      var res = await fetch(API, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      var data = null;
+      try { data = await res.json(); } catch (err) { data = null; }
+      if (!res.ok || !data || !data.ok) {
+        showError((data && data.error) || 'ส่งไม่สำเร็จ (' + res.status + ') — ลองใหม่อีกครั้ง หรือทักผู้ดูแลโดยตรง');
+        return;
+      }
+      try { localStorage.setItem(SENT_KEY, JSON.stringify({ email: email, at: Date.now() })); } catch (err) { /* ignore */ }
+      showDone(email, data.duplicate === true);
+    } catch (err) {
+      showError('ต่อเซิร์ฟเวอร์ไม่ได้ — เช็คอินเทอร์เน็ตแล้วลองใหม่ หรือทักผู้ดูแลโดยตรง');
+    } finally {
+      submit.disabled = false;
+      submit.textContent = 'ส่งข้อมูลให้ผู้ดูแล';
+    }
+  });
+})();
+</script>
+</body>
+</html>
