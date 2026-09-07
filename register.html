@@ -8,7 +8,13 @@
 <meta name="robots" content="noindex">
 <!--
   หน้าฟอร์มลงทะเบียนสำหรับลูกค้า — เผยแพร่คู่กับคู่มือด้วย npm run guide:publish
-  ได้ลิงก์คงที่ https://mister-1.github.io/agent-1-releases/register.html
+  ขึ้นสองที่พร้อมกัน ไฟล์เดียวกัน:
+
+    https://agent1-app.pages.dev/register                       ลิงก์ที่ส่งให้ลูกค้า (Cloudflare Pages)
+    https://mister-1.github.io/agent-1-releases/register.html   ที่อยู่เดิม เก็บไว้ให้ลิงก์เก่าที่ส่งไปแล้วยังเปิดได้
+
+  ลิงก์ไปคู่มือในหน้านี้เขียนแบบสัมพัทธ์ ("./") เพราะรากของสองที่นั้นไม่ตรงกัน —
+  ที่ Cloudflare คู่มืออยู่ที่ / ส่วนบน GitHub Pages อยู่ที่ /agent-1-releases/
 
   ส่งข้อมูลเข้า edge function license/request (supabase/functions/license/index.ts)
   ไปพักในตาราง license_requests รอแอดมินตรวจและอนุมัติในหน้าแอดมิน แท็บ "คำขอลงทะเบียน"
@@ -304,7 +310,7 @@ footer a { color: inherit; }
       <li>พอได้ License Key แล้ว เปิดโปรแกรมแล้วกรอก — ทำตามคู่มือขั้นที่ 4 เป็นต้นไป</li>
     </ol>
     <div class="links">
-      <a class="btn" href="https://mister-1.github.io/agent-1-releases/">อ่านคู่มือก่อนติดตั้ง</a>
+      <a class="btn" href="./">อ่านคู่มือก่อนติดตั้ง</a>
       <a class="btn ghost" href="https://github.com/mister-1/agent-1-releases/releases/latest/download/Agent-1-Setup.exe">ดาวน์โหลด Windows</a>
       <a class="btn ghost" href="https://github.com/mister-1/agent-1-releases/releases/latest/download/Agent-1-macOS-Apple-Silicon.dmg">ดาวน์โหลด Mac (Apple Silicon)</a>
     </div>
@@ -391,7 +397,7 @@ footer a { color: inherit; }
 
   <footer>
     <span>มีใบอนุญาตอยู่แล้ว? ไม่ต้องกรอกใหม่ — เปิดโปรแกรมแล้วกรอก License Key เดิมได้เลย</span>
-    <span>คู่มือฉบับเต็ม: <a href="https://mister-1.github.io/agent-1-releases/">mister-1.github.io/agent-1-releases</a></span>
+    <span><a href="./">คู่มือเริ่มต้นใช้งานฉบับเต็ม</a></span>
   </footer>
 
 </div>
