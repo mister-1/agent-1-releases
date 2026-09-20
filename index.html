@@ -709,10 +709,10 @@ footer {
 
     <div class="dl">
       <a class="btn" href="https://github.com/mister-1/agent-1-releases/releases/latest/download/Agent-1-Setup.exe">
-        ดาวน์โหลดสำหรับ Windows <span class="b-sub">Windows 10/11 · ~130 MB</span>
+        ดาวน์โหลดสำหรับ Windows <span class="b-sub">Windows 10/11 (64-bit) · ~165 MB</span>
       </a>
       <a class="btn ghost" href="https://github.com/mister-1/agent-1-releases/releases/latest/download/Agent-1-macOS-Apple-Silicon.dmg">
-        ดาวน์โหลดสำหรับ Mac <span class="b-sub">Apple Silicon (M1–M4)</span>
+        ดาวน์โหลดสำหรับ Mac <span class="b-sub">ชิป Apple M1–M4 · ~185 MB</span>
       </a>
     </div>
   </section>
@@ -746,7 +746,7 @@ footer {
     <div class="prereq-grid">
       <div class="prereq-item">
         <h3>เครื่องที่ไหว</h3>
-        <p>Windows 10/11 หรือ macOS 10.15 ขึ้นไป · แรม 8 GB ขึ้นไป · พื้นที่ว่างอย่างน้อย 5 GB</p>
+        <p>Windows 10/11 (64-bit) หรือ Mac ชิป Apple M1 ขึ้นไป · แรม 8 GB ขึ้นไป · พื้นที่ว่างอย่างน้อย 5 GB<br><b>Mac ชิป Intel ยังไม่รองรับ</b> — เช็กที่โลโก้แอปเปิลมุมซ้ายบน → About This Mac → บรรทัด Chip</p>
       </div>
       <div class="prereq-item">
         <h3>Chrome หรือ Edge</h3>
@@ -789,7 +789,7 @@ footer {
           </div>
           <ul>
             <li><b>Windows: กดปุ่ม "ดาวน์โหลดสำหรับ Windows" ด้านบน</b> — ได้ไฟล์ <code>.exe</code> ไฟล์เดียวที่ใช้ได้กับ Windows 10 และ 11 ทุกเครื่อง ไม่ต้องเลือกอะไรเพิ่ม</li>
-            <li><b>Mac: กดปุ่ม "ดาวน์โหลดสำหรับ Mac"</b> — ได้ไฟล์ <code>.dmg</code> รองรับ macOS 10.15 ขึ้นไป ทั้ง Intel และ Apple Silicon</li>
+            <li><b>Mac: กดปุ่ม "ดาวน์โหลดสำหรับ Mac"</b> — ได้ไฟล์ <code>.dmg</code> ใช้ได้เฉพาะเครื่อง<b>ชิป Apple (M1/M2/M3/M4)</b> เท่านั้น Mac ชิป Intel ยังไม่รองรับ ติดตั้งไปก็เปิดไม่ขึ้น</li>
           </ul>
         </div>
       </article>
@@ -876,6 +876,15 @@ footer {
                 <li>ครั้งแรกต้องเปิดแบบพิเศษ: ไปที่ Applications → <b>คลิกขวา</b> (หรือ Control+คลิก) ที่ Agent-1 → เลือก <span class="ui">เปิด</span> → กด <span class="ui">เปิด</span> ซ้ำอีกครั้งในหน้าต่างเตือน ครั้งต่อไปดับเบิลคลิกได้ปกติ</li>
                 <li>ถ้าขึ้นว่า “Agent-1 is damaged and can’t be opened” ให้เปิด Terminal แล้วรัน
                   <code>xattr -cr /Applications/Agent-1.app</code> แล้วลองเปิดใหม่</li>
+              </ol>
+            </div>
+
+            <div class="case">
+              <h4>ช. เปิดแอปครั้งแรก — ไฟร์วอลล์จะถามครั้งเดียว</h4>
+              <ol>
+                <li><b>Windows:</b> กล่อง “Windows Defender Firewall has blocked some features of this app” — ติ๊ก <span class="ui">Private networks</span> แล้วกด <span class="ui">Allow access</span></li>
+                <li><b>Mac:</b> กล่อง “Do you want the application to accept incoming network connections?” — กด <span class="ui">Allow</span> (เครื่องที่ปิดไฟร์วอลล์ไว้จะไม่เจอกล่องนี้เลย)</li>
+                <li>ต้องอนุญาตถ้าจะเปิดดู/สั่งงานจากมือถือในวง Wi-Fi เดียวกัน (ขั้นที่ 10) — กดปฏิเสธไปแล้วแอปยังใช้บนเครื่องนี้ได้ครบทุกอย่าง</li>
               </ol>
             </div>
 
