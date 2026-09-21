@@ -560,6 +560,15 @@ footer {
 
 .btn .b-sub { font-weight: 500; opacity: 0.85; font-size: 12px; }
 
+/*
+  แถวปุ่มไปหน้าติดตั้งครั้งแรกแบบมีภาพประกอบ (/install)
+  วางใต้ปุ่มดาวน์โหลดเพราะคนที่เพิ่งกดโหลดไฟล์คือคนที่ต้องการหน้านั้นพอดี
+*/
+.dl-more { margin-top: 10px; }
+.dl-more .btn { background: var(--sunken); color: var(--text); border-color: var(--line); font-weight: 600; }
+.dl-more .btn:hover { border-color: var(--primary); }
+.dl-more .btn svg { color: var(--primary); }
+
 /* คำเตือนเส้นเดียวเหนือปุ่มดาวน์โหลด — สิ่งที่ต้องอ่านก่อนดับเบิลคลิกไฟล์ */
 .hero-warn {
   display: flex;
@@ -713,6 +722,14 @@ footer {
       </a>
       <a class="btn ghost" href="https://github.com/mister-1/agent-1-releases/releases/latest/download/Agent-1-macOS-Apple-Silicon.dmg">
         ดาวน์โหลดสำหรับ Mac <span class="b-sub">ชิป Apple M1–M4 · ~185 MB</span>
+      </a>
+    </div>
+
+    <div class="dl dl-more">
+      <a class="btn" href="./install.html">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+        วิธีติดตั้งครั้งแรก แบบมีภาพประกอบ
+        <span class="b-sub">ทีละขั้น · มีภาพจอเตือนทุกจอ · อ่านบนมือถือได้</span>
       </a>
     </div>
   </section>
