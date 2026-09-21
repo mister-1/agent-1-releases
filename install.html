@@ -79,6 +79,17 @@ h1 { margin: 14px 0 6px; font-size: 27px; line-height: 1.3; font-weight: 700; }
 .dl .t { font-weight: 700; font-size: 16.5px; line-height: 1.35; }
 .dl .s { font-size: 13px; opacity: .85; }
 .dl svg { flex: none; }
+/* ปุ่มข้ามไปคู่มือฉบับเต็ม — สีอ่อนกว่าปุ่มดาวน์โหลดเพื่อไม่แย่งความสนใจของขั้นที่กำลังทำอยู่ */
+.dl.ghost { background: var(--surface); color: var(--text); border: 1.5px solid var(--line); }
+.dl.ghost:hover { border-color: var(--primary); }
+.dl.ghost .s { color: var(--muted); opacity: 1; }
+.dl.ghost svg { color: var(--primary); }
+.navbtn {
+  margin-left: auto; text-decoration: none; font-size: 13.5px; font-weight: 600;
+  color: var(--primary); background: var(--surface); border: 1px solid var(--line);
+  border-radius: 999px; padding: 7px 13px; white-space: nowrap;
+}
+.navbtn:hover { border-color: var(--primary); }
 
 /* ── ขั้นตอน ────────────────────────────────── */
 .step { display: flex; gap: 13px; padding: 18px 0; border-top: 1px solid var(--line); }
@@ -174,6 +185,7 @@ footer a { color: var(--primary); }
     <div class="brand">
       <div class="mark">A1</div>
       <b>Agent-1</b>
+      <a class="navbtn" href="./">คู่มือฉบับเต็ม 12 ขั้น →</a>
     </div>
     <h1>ติดตั้งครั้งแรก</h1>
     <p class="lede">ใช้เวลาราว 15 นาที · ปลดล็อกความปลอดภัยแค่ครั้งแรกครั้งเดียว รุ่นต่อไปไม่ต้องทำซ้ำ</p>
@@ -456,8 +468,15 @@ footer a { color: var(--primary); }
     </div>
   </div>
 
+  <a class="dl ghost" href="./" style="margin-top:22px">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+    <span>
+      <span class="t">ต่อไป: คู่มือฉบับเต็ม 12 ขั้น</span><br>
+      <span class="s">ใส่คีย์ AI · ล็อกอินบัญชีผลิตคลิป · สร้างช่อง · ตั้งตารางโพสต์ จนปล่อยให้ระบบเดินเอง</span>
+    </span>
+  </a>
+
   <footer>
-    อยากดูลำดับตั้งค่าทั้งหมดตั้งแต่ต้นจนปล่อยให้ระบบเดินเอง → <a href="./">คู่มือฉบับเต็ม 12 ขั้น</a><br>
     ติดตั้งไม่ได้หรือติดตรงไหน ทักผู้ที่ส่งลิงก์นี้มาให้ได้เลยครับ
   </footer>
 
