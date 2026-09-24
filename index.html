@@ -226,7 +226,7 @@ footer.bottom { margin-top: 28px; padding-top: 16px; border-top: 1px solid var(-
     <div class="chips">
       <span class="chip"><b>4 ขั้นบังคับ</b> ~10 นาที</span>
       <span class="chip">ทำในหน้าต่างเดียว <b>ไม่ต้องสลับเมนู</b></span>
-      <span class="chip">ปรับปรุงหน้านี้ล่าสุด <b data-guide-updated>21 ก.ย. 2569</b></span>
+      <span class="chip">ปรับปรุงหน้านี้ล่าสุด <b data-guide-updated>24 ก.ย. 2569</b></span>
     </div>
   </header>
 
@@ -235,6 +235,15 @@ footer.bottom { margin-top: 28px; padding-top: 16px; border-top: 1px solid var(-
     <span>
       <span class="t">ยังไม่ได้ติดตั้งโปรแกรม?</span><br>
       <span class="s">ไปหน้าวิธีติดตั้งครั้งแรก — มีปุ่มดาวน์โหลดและภาพจอเตือนทุกจอ</span>
+    </span>
+    <span class="go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></span>
+  </a>
+
+  <a class="install-cta" href="#move">
+    <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg></span>
+    <span>
+      <span class="t">ย้ายมาจากเครื่องเดิม?</span><br>
+      <span class="s">ไม่ต้องตั้งค่าใหม่ทีละขั้น — สำรองจากเครื่องเดิมแล้วกู้คืนที่เครื่องนี้ ทุกอย่างกลับมาเหมือนเดิม รวมการล็อกอินทุกบัญชี</span>
     </span>
     <span class="go"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></span>
   </a>
@@ -249,6 +258,7 @@ footer.bottom { margin-top: 28px; padding-top: 16px; border-top: 1px solid var(-
     <span class="lbl">ไปที่ขั้น</span>
     <a href="#step-3">3</a><a href="#step-4">4</a><a href="#step-5">5</a><a href="#step-6">6</a>
     <a href="#step-7">7</a><a href="#step-8">8</a><a href="#step-9">9</a><a href="#optional">10–12</a>
+    <a href="#move">ย้ายเครื่อง</a>
   </nav>
 
   <!-- ══════════════ ด่านแรก ══════════════ -->
@@ -565,6 +575,47 @@ footer.bottom { margin-top: 28px; padding-top: 16px; border-top: 1px solid var(-
     <div class="check-row"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>ตารางโพสต์มีวันเวลาครบ และเปิด "ต้องให้ฉันอนุมัติก่อนโพสต์" ไว้ในรอบแรก (ขั้น 9)</div>
   </div>
 
+  <!-- ══════════════ ย้ายเครื่อง ══════════════ -->
+  <div class="group-head" id="move">
+    <h2>ย้ายไปเครื่องใหม่</h2>
+    <p>สำรองทุกอย่างของเครื่องเดิมไว้ในไฟล์เดียว แล้วกู้คืนที่เครื่องใหม่ — ไม่ต้องตั้งค่าใหม่ ไม่ต้องล็อกอินใหม่ทีละบัญชี</p>
+  </div>
+
+  <details class="opt-card" open>
+    <summary>
+      <div class="n">ก</div>
+      <div class="txt"><b>ที่เครื่องเดิม: สำรองข้อมูล</b><span>ทำระหว่างใช้งานได้ ไม่ต้องปิดอะไร · ใช้แอปรุ่น 0.132.0 ขึ้นไป (ถ้ายังเก่ากว่า กด "เช็คอัปเดต" ที่ไอคอนข้างนาฬิกาก่อน)</span></div>
+      <svg class="car" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </summary>
+    <div class="body">
+      <p>เปิดเมนู <b>ขั้นสูง › สำรอง / ย้ายเครื่อง</b> จะเห็นรายการสิ่งที่ถูกสำรองพร้อมขนาด — คลิปของแต่ละช่องกับชุดปากตรงเสียงติ๊กออกได้ถ้าอยากให้ไฟล์เล็กลง</p>
+      <p>เลือกที่เก็บ (เลือกแฟลชไดรฟ์ได้เลย) ตั้งรหัสผ่านอย่างน้อย 6 ตัวอักษร แล้วกด <b>"สำรองข้อมูลตอนนี้"</b></p>
+      <p>เสร็จแล้วได้โฟลเดอร์ชื่อ <code>Agent-1-backup-วันที่</code> ให้คัดลอก<b>ทั้งโฟลเดอร์</b>ไปเครื่องใหม่ — ข้อมูลเกิน 3.9 GB ระบบแบ่งเป็นหลายไฟล์ให้เอง (ลงแฟลชไดรฟ์ได้) ต้องคัดลอกไปให้ครบทุกไฟล์</p>
+      <p>ถ้ามีงานกำลังผลิตอยู่ตอนสำรอง ไฟล์ของงานนั้นอาจไม่ครบ — ถ้าจะย้ายเครื่องจริง แนะนำให้รอคิวว่างหรือกดหยุดคิวก่อน</p>
+    </div>
+  </details>
+
+  <details class="opt-card" open>
+    <summary>
+      <div class="n">ข</div>
+      <div class="txt"><b>ที่เครื่องใหม่: กู้คืน</b><span>ยังไม่ต้องกรอกซีเรียลก่อนก็ได้ — กู้คืนเสร็จค่อยกรอก</span></div>
+      <svg class="car" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </summary>
+    <div class="body">
+      <p><a href="./install.html">ติดตั้ง Agent-1</a> รุ่นเดียวกันหรือใหม่กว่าเครื่องเดิม แล้วเปิดแอป ในหน้ากรอกซีเรียลกดลิงก์ <b>"ย้ายมาจากเครื่องเดิม?"</b> (หรือเข้าเมนู ขั้นสูง › สำรอง / ย้ายเครื่อง)</p>
+      <p>กด "เลือก" แล้วเลือกไฟล์ <code>.agent1backup</code> (ถ้ามีหลายไฟล์ เลือกไฟล์แรก) ระบบบอกว่าเป็นไฟล์ของเครื่องไหน สำรองเมื่อไร — ใส่รหัสผ่าน แล้วกด <b>"กู้คืนข้อมูล"</b></p>
+      <p>ระบบแตกไฟล์และย้ายการล็อกอินให้ แล้ว<b>เปิดโปรแกรมใหม่เอง</b> กลับมาที่หน้าเดิมพร้อมรายงานว่าอะไรย้ายมาครบ อะไรต้องทำต่อ (ถ้าแอปไม่เปิดขึ้นมาเอง ปิดแล้วเปิดใหม่ ระบบสลับข้อมูลให้ตอนเปิด)</p>
+      <p>ขั้นสุดท้าย กรอกซีเรียลเดิมที่หน้า <b>ตั้งค่าทั่วไป › ใบอนุญาต</b> (ระบบเติมให้ในช่องแล้ว) ถ้าขึ้น "ที่นั่งเต็ม" กรอกอีเมลที่ใช้ซื้อแล้วปลดเครื่องเดิมออกได้ในหน้าเดียวกัน</p>
+    </div>
+  </details>
+
+  <div class="prep">
+    <div class="prep-item"><b>ย้ายไปครบ</b>ช่อง หัวข้อ บท ตั้งค่าทุกหน้า คีย์ AI ตัวละคร สินค้า เพลง คลิปที่ผลิตแล้ว และการล็อกอิน Google Flow, Meta AI, TikTok, YouTube, Facebook, Shopee, Lazada</div>
+    <div class="prep-item"><b>ย้ายไม่ได้</b>ใบอนุญาต เพราะผูกกับเครื่อง — กรอกซีเรียลเดิมบนเครื่องใหม่ · ชุดปากตรงเสียงเมื่อย้ายข้าม Windows ↔ Mac — โหลดใหม่ได้ในแอป</div>
+    <div class="prep-item"><b>รหัสผ่านไฟล์สำรอง</b>จดไว้ให้ดี ลืมแล้วเปิดไฟล์ไม่ได้ ไม่มีใครกู้ให้ได้รวมถึงผู้ขาย — ในไฟล์มีการล็อกอินทุกบัญชี อย่าส่งไฟล์ให้คนอื่น</div>
+    <div class="prep-item"><b>ข้อมูลเดิมของเครื่องใหม่</b>ไม่ถูกลบ แค่ย้ายไปเก็บไว้ ลบทิ้งเองได้จากหน้ารายงานเมื่อมั่นใจแล้ว · ชื่อผู้ใช้หรือไดรฟ์ต่างจากเดิมก็ได้ ระบบแก้ที่อยู่ไฟล์ให้เอง</div>
+  </div>
+
   <!-- ══════════════ FAQ ══════════════ -->
   <div class="group-head">
     <h2>เจอแบบนี้ แก้ตรงนี้</h2>
@@ -601,6 +652,14 @@ footer.bottom { margin-top: 28px; padding-top: 16px; border-top: 1px solid var(-
   <details class="faq">
     <summary>คลิปขายของ — ดูยังไงว่าสินค้าในคลิปตรงกับของจริง</summary>
     <div class="a">ที่ <b>คลังเนื้อหา</b> เปิดคลิปที่มาจากสินค้า จะมีแผง "สินค้าจริงที่ต้องได้เหมือนเป๊ะ" พร้อมเช็คลิสต์ภาษาไทยสั้น ๆ (เช่น "มีแถบสะท้อนแสงสีเงินที่หน้าอก") กวาดตาเทียบได้ในไม่กี่วินาที ถ้าไม่ตรงมีปุ่ม "สินค้าไม่ตรงกับรูป" ให้กด — สำคัญกับ TikTok Shop ที่บังคับว่าสินค้าในคลิปต้องเป็นชิ้นเดียวกับของในลิงก์</div>
+  </details>
+  <details class="faq">
+    <summary>ย้ายเครื่องแล้วบางบัญชีขึ้น "ยังไม่ได้ล็อกอิน"</summary>
+    <div class="a">ดูรายงานที่หน้า <b>สำรอง / ย้ายเครื่อง</b> — ถ้าขึ้น "ย้ายการล็อกอินยังไม่สำเร็จ" ให้ปิดเบราว์เซอร์ของโปรไฟล์นั้นแล้วกด "ลองย้ายการล็อกอินอีกครั้ง" · ถ้าเป็นโปรไฟล์ที่เครื่องเดิมยังไม่เคยเปิดใช้ ต้องล็อกอินเองครั้งเดียว · อยากยืนยันกับเว็บจริงกด "ตรวจการล็อกอิน" ที่หน้าโปรไฟล์เบราว์เซอร์</div>
+  </details>
+  <details class="faq">
+    <summary>กู้คืนไม่ได้ ขึ้นว่าไฟล์ไม่ครบ หรือมาจากแอปรุ่นใหม่กว่า</summary>
+    <div class="a"><b>ไฟล์ไม่ครบ</b> — ไฟล์ส่วนใดส่วนหนึ่งหายหรือคัดลอกไม่จบ คัดลอกทั้งโฟลเดอร์มาใหม่ ไฟล์ <code>.part2</code> <code>.part3</code> ต้องอยู่โฟลเดอร์เดียวกับไฟล์แรก · <b>รุ่นใหม่กว่า</b> — แอปเครื่องนี้เก่ากว่าเครื่องที่สำรอง กด "เช็คอัปเดต" ก่อนแล้วกู้คืนใหม่ ข้อมูลในเครื่องไม่ถูกแตะจนกว่าจะกู้คืนสำเร็จ</div>
   </details>
   <details class="faq">
     <summary>ปิดหน้าต่างแล้วแต่โปรแกรมยังทำงาน / อยากได้รุ่นใหม่ต้องโหลดมาลงทับไหม</summary>
