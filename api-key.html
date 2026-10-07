@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent-1 — ขอคีย์ Google AI</title>
+<meta name="description" content="วิธีขอคีย์ API ของ Google (Gemini) ฟรี จาก Google AI Studio ทีละขั้นพร้อมภาพประกอบ แล้ววางในแอป Agent-1 ใช้เวลา 3 นาที">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&display=swap">
+<style>
+/*
+  หน้าวิธีขอคีย์ Google AI (Gemini) — ลูกค้าติดขั้น 2 ของตัวช่วยตั้งค่า "วางคีย์ AI หนึ่งใบ" เพราะไม่รู้ว่าคีย์ขอที่ไหน
+  สไตล์ชุดเดียวกับ install.html (มือถือก่อน, Noto Sans Thai จาก Google Fonts)
+  ภาพจำลองหน้า Google AI Studio วาดด้วย CSS จากหน้าตาจริงรุ่น ก.ย. 2569 (หน้า aistudio.google.com/api-keys)
+  ไม่ใช้ภาพหน้าจอจริงเพราะมีอีเมล/ชื่อโปรเจกต์ของบัญชีคนถ่ายติดมา — ถ้า Google เปลี่ยนหน้าตา แก้ป้ายในภาพจำลองตามได้เลย
+*/
+:root {
+  --bg: oklch(0.982 0.006 248);
+  --surface: oklch(1 0 0);
+  --sunken: oklch(0.958 0.010 248);
+  --line: oklch(0.898 0.014 248);
+  --text: oklch(0.235 0.032 250);
+  --muted: oklch(0.462 0.030 248);
+  --subtle: oklch(0.585 0.026 248);
+  --primary: oklch(0.498 0.152 248);
+  --primary-strong: oklch(0.418 0.148 250);
+  --warn: oklch(0.505 0.130 62);
+  --warn-bg: oklch(0.960 0.035 70);
+  --warn-line: oklch(0.880 0.070 70);
+  --ok: oklch(0.462 0.110 160);
+  --ok-bg: oklch(0.960 0.030 160);
+  --ok-line: oklch(0.880 0.060 160);
+  --shadow: 0 1px 2px oklch(0.235 0.032 250 / 0.06), 0 8px 24px oklch(0.235 0.032 250 / 0.05);
+  --f-sans: 'Noto Sans Thai', 'Leelawadee UI', system-ui, sans-serif;
+  --f-mono: ui-monospace, 'Cascadia Mono', 'Segoe UI Mono', Consolas, monospace;
+
+  /* สีของหน้า Google AI Studio (ธีมมืด) — ใช้เฉพาะในภาพจำลอง */
+  --gs-bg: #131314;
+  --gs-panel: #1b1c1d;
+  --gs-field: #232426;
+  --gs-line: #3a3b3d;
+  --gs-text: #e3e3e3;
+  --gs-muted: #9aa0a6;
+  --gs-link: #8ab4f8;
+  /* วงที่บอกว่า "กดตรงนี้" */
+  --ring: oklch(0.78 0.16 70);
+
+  /* สีของแอป Agent-1 (ดึงจาก getComputedStyle ของแอปจริง ชุดเดียวกับ getting-started.html) */
+  --app-bg: oklch(0.158 0.024 248);
+  --app-surface: oklch(0.213 0.030 248);
+  --app-primary: oklch(0.685 0.168 248);
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--f-sans);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 760px; margin: 0 auto; padding: 0 16px 56px; }
+
+/* ── หัวเรื่อง ───────────────────────────────── */
+header { padding: 28px 0 18px; }
+.brand { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.mark {
+  width: 34px; height: 34px; border-radius: 9px; background: var(--text); color: var(--bg);
+  display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px;
+}
+.brand b { font-size: 15px; letter-spacing: .01em; }
+h1 { margin: 14px 0 6px; font-size: 27px; line-height: 1.3; font-weight: 700; }
+.lede { margin: 0; color: var(--muted); font-size: 15px; }
+.navbtn {
+  margin-left: auto; text-decoration: none; font-size: 13px; font-weight: 600;
+  color: var(--primary); background: var(--surface); border: 1px solid var(--line);
+  border-radius: 999px; padding: 6px 12px; white-space: nowrap;
+}
+.navbtn:hover { border-color: var(--primary); }
+
+/* ── ปุ่มเปิดลิงก์ ──────────────────────────── */
+.dl {
+  display: flex; align-items: center; gap: 12px; text-decoration: none;
+  background: var(--primary); color: #fff; border-radius: 14px; padding: 15px 18px;
+  box-shadow: var(--shadow); margin: 18px 0 4px;
+}
+.dl:hover { background: var(--primary-strong); }
+.dl .t { font-weight: 700; font-size: 16.5px; line-height: 1.35; }
+.dl .s { font-size: 13px; opacity: .85; overflow-wrap: anywhere; }
+.dl svg { flex: none; }
+
+.prep { display: grid; gap: 8px; margin: 14px 0 6px; }
+.prep div { background: var(--surface); border: 1px solid var(--line); border-radius: 11px; padding: 10px 13px; font-size: 14.5px; }
+.prep b { display: block; font-size: 15px; }
+
+/* ── ขั้นตอน ────────────────────────────────── */
+.step { display: flex; gap: 13px; padding: 20px 0; border-top: 1px solid var(--line); }
+.steps .step:first-child { border-top: none; }
+.n {
+  flex: none; width: 30px; height: 30px; border-radius: 50%; background: var(--primary); color: #fff;
+  display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px; margin-top: 2px;
+}
+.n.ok { background: var(--ok); }
+.step h3 { margin: 0 0 4px; font-size: 18px; line-height: 1.4; font-weight: 600; }
+.step p { margin: 0 0 8px; }
+.step p:last-child { margin-bottom: 0; }
+.body { min-width: 0; flex: 1; }
+.ui { font-weight: 600; background: var(--sunken); border: 1px solid var(--line); border-radius: 5px; padding: 0 5px; white-space: nowrap; }
+code { font-family: var(--f-mono); font-size: 13.5px; background: var(--sunken); border: 1px solid var(--line); border-radius: 5px; padding: 1px 5px; overflow-wrap: anywhere; }
+.aside { color: var(--muted); font-size: 14.5px; border-left: 3px solid var(--line); padding-left: 11px; }
+.tip { background: var(--ok-bg); border: 1px solid var(--ok-line); border-radius: 10px; padding: 9px 12px; font-size: 14.5px; }
+.tip b { color: var(--ok); }
+.warnbox { background: var(--warn-bg); border: 1px solid var(--warn-line); border-radius: 10px; padding: 9px 12px; font-size: 14.5px; }
+.warnbox b { color: var(--warn); }
+
+/* ── ภาพจำลองหน้าจอ ────────────────────────── */
+figure { margin: 12px 0 0; }
+figcaption { font-size: 12.5px; color: var(--subtle); margin-top: 6px; text-align: center; }
+
+/* หน้า Google AI Studio */
+.gs {
+  background: var(--gs-bg); color: var(--gs-text); border-radius: 12px; overflow: hidden;
+  box-shadow: var(--shadow); font-family: 'Google Sans', Roboto, var(--f-sans); font-size: 13px; line-height: 1.45;
+  border: 1px solid #000;
+}
+.gs .addr { background: #2b2c2e; padding: 7px 10px; display: flex; gap: 8px; align-items: center; }
+.gs .addr .url { flex: 1; min-width: 0; background: #1f2022; border-radius: 999px; padding: 4px 12px; color: var(--gs-muted); font-size: 12.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gs .addr .url b { color: var(--gs-text); font-weight: 500; }
+.gs .pad { padding: 14px; }
+.gs .top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.gs .title { font-size: 19px; font-weight: 500; margin-right: auto; }
+.gs .gbtn { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--gs-line); border-radius: 999px; padding: 5px 12px; font-size: 12.5px; font-weight: 500; white-space: nowrap; }
+.gs .gbtn.fill { background: #e3e3e3; color: #131314; border-color: #e3e3e3; }
+.gs .gbtn.plain { border-color: transparent; color: var(--gs-muted); }
+.gs .lbl { font-size: 11.5px; color: var(--gs-muted); margin: 10px 0 4px; }
+.gs .field { background: var(--gs-field); border: 1px solid var(--gs-line); border-radius: 8px; padding: 7px 10px; display: flex; justify-content: space-between; align-items: center; }
+.gs .dialog { background: var(--gs-panel); border: 1px solid var(--gs-line); border-radius: 14px; padding: 14px; max-width: 360px; margin: 0 auto; }
+.gs .dialog .h { font-size: 15px; font-weight: 500; display: flex; justify-content: space-between; }
+.gs .dialog .foot { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; }
+.gs table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 12px; }
+.gs th { text-align: left; font-weight: 500; color: var(--gs-muted); padding: 6px 4px; border-bottom: 1px solid var(--gs-line); }
+.gs td { padding: 8px 4px; vertical-align: top; }
+.gs td .sub { color: var(--gs-muted); font-size: 11px; }
+.gs td:first-child, .gs th { white-space: nowrap; }
+.gs .icons { display: flex; gap: 6px; justify-content: flex-end; color: var(--gs-muted); }
+.gs .ico { width: 24px; height: 24px; border-radius: 6px; display: inline-flex; align-items: center; justify-content: center; }
+.gs .toast { background: #303134; color: var(--gs-text); border-radius: 6px; padding: 7px 12px; font-size: 12px; margin: 12px auto 0; width: max-content; max-width: 100%; }
+.gs .side { color: var(--gs-muted); font-size: 12px; }
+.gs .side div { padding: 3px 8px; border-radius: 999px; }
+.gs .side .on { background: #2d2e30; color: var(--gs-text); }
+.gs .gsignin { background: #fff; color: #1f1f1f; padding: 18px 16px; font-family: Roboto, var(--f-sans); }
+.gs .gsignin .glogo { font-size: 20px; font-weight: 500; letter-spacing: -.01em; }
+.gs .gsignin .gfield { border: 1px solid #747775; border-radius: 4px; padding: 10px 12px; color: #5f6368; margin-top: 12px; font-size: 13px; }
+.gs .gsignin .gnext { background: #0b57d0; color: #fff; border-radius: 999px; padding: 7px 18px; font-size: 13px; font-weight: 500; display: inline-block; }
+
+/* วงบอกจุดที่ต้องกด */
+.hl { position: relative; box-shadow: 0 0 0 2.5px var(--ring), 0 0 0 7px oklch(0.78 0.16 70 / 0.25); }
+.tag {
+  display: inline-block; background: var(--ring); color: #1c1300; font-weight: 700; font-size: 11.5px;
+  border-radius: 6px; padding: 1px 7px; margin-left: 6px; white-space: nowrap; font-family: var(--f-sans);
+}
+
+/* แอป Agent-1 */
+.app { background: var(--app-bg); color: oklch(0.93 0.01 248); border-radius: 12px; padding: 14px; box-shadow: var(--shadow); font-size: 13.5px; }
+.app .card { background: var(--app-surface); border-radius: 10px; padding: 13px; }
+.app .h { font-weight: 700; font-size: 15px; }
+.app .d { color: oklch(0.72 0.03 248); font-size: 12.5px; margin-top: 2px; }
+.app .lbl { font-size: 12.5px; font-weight: 600; margin: 12px 0 5px; }
+.app .inp { background: var(--app-bg); border: 1px solid oklch(0.34 0.03 248); border-radius: 7px; padding: 7px 10px; font-family: var(--f-mono); font-size: 12.5px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.app .badges { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 9px; }
+.app .badge { font-size: 11.5px; border-radius: 999px; padding: 1px 9px; background: oklch(0.32 0.07 160); color: oklch(0.88 0.09 160); font-weight: 600; }
+.app .badge.n { background: oklch(0.30 0.02 248); color: oklch(0.80 0.02 248); }
+.app .btn { display: inline-block; background: var(--app-primary); color: oklch(0.16 0.03 248); font-weight: 700; border-radius: 8px; padding: 6px 13px; font-size: 13px; margin-top: 12px; }
+.app .okline { margin-top: 10px; border: 1px solid oklch(0.45 0.09 160); background: oklch(0.25 0.04 160); color: oklch(0.88 0.09 160); border-radius: 8px; padding: 7px 10px; font-size: 12.5px; font-weight: 600; }
+
+/* ── ปัญหาที่เจอบ่อย ─────────────────────────── */
+h2 { font-size: 21px; margin: 30px 0 4px; }
+details { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; margin: 10px 0 0; }
+details summary { cursor: pointer; padding: 13px 15px; font-weight: 600; font-size: 15.5px; list-style: none; display: flex; gap: 9px; align-items: flex-start; }
+details summary::-webkit-details-marker { display: none; }
+details summary .caret { margin-left: auto; color: var(--primary); font-weight: 700; flex: none; }
+details[open] summary .caret { transform: rotate(180deg); }
+details .inner { padding: 0 15px 14px; font-size: 14.5px; }
+details .inner p { margin: 0 0 8px; }
+details .inner p:last-child { margin-bottom: 0; }
+
+footer { margin-top: 30px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14.5px; }
+footer a { color: var(--primary); }
+
+@media (min-width: 720px) {
+  h1 { font-size: 32px; }
+  .prep { grid-template-columns: 1fr 1fr 1fr; }
+  .mockrow { display: flex; gap: 16px; align-items: flex-start; }
+  .mockrow figure { flex: none; width: 330px; margin-top: 0; }
+  .mockrow .txt { flex: 1; min-width: 0; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="brand">
+      <div class="mark">A1</div>
+      <b>Agent-1</b>
+      <a class="navbtn" href="./">คู่มือฉบับเต็ม →</a>
+    </div>
+    <h1>ขอคีย์ Google AI (ฟรี)</h1>
+    <p class="lede">ใช้เวลาราว 3 นาที · ทำครั้งเดียวจบ · ใช้กับขั้น 2 “วางคีย์ AI หนึ่งใบ” ในแอป Agent-1</p>
+  </header>
+
+  <div class="prep">
+    <div><b>บัญชี Gmail ส่วนตัว</b>ใช้บัญชีที่มีอยู่ได้เลย ไม่ใช่บัญชีบริษัท/โรงเรียน</div>
+    <div><b>ทำบนคอมเครื่องที่ลงแอป</b>จะได้กดคัดลอกแล้ววางในแอปได้ทันที</div>
+    <div><b>ไม่ต้องผูกบัตร</b>เริ่มใช้ฟรีได้เลย (Free tier)</div>
+  </div>
+
+  <a class="dl" href="https://aistudio.google.com/api-keys" target="_blank" rel="noopener">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+    <span>
+      <span class="t">เปิดหน้า Google AI Studio</span><br>
+      <span class="s">aistudio.google.com/api-keys</span>
+    </span>
+  </a>
+  <p class="aside">กดปุ่มด้านบน หรือพิมพ์ <code>aistudio.google.com/api-keys</code> ในช่องที่อยู่ของ Chrome แล้วทำตามขั้นข้างล่าง · หน้าเว็บเป็นภาษาอังกฤษ — ชื่อปุ่มในคู่มือนี้เขียนตามที่เห็นบนจอจริง</p>
+
+  <div class="steps">
+
+    <div class="step">
+      <div class="n">1</div>
+      <div class="body">
+        <h3>ล็อกอินด้วยบัญชี Google</h3>
+        <div class="mockrow">
+          <div class="txt">
+            <p>ถ้ายังไม่ได้ล็อกอิน Google จะพาไปหน้า <b>Sign in</b> ก่อน — ใส่อีเมล Gmail กด <span class="ui">Next</span> ใส่รหัสผ่านตามปกติ</p>
+            <p>เข้าครั้งแรกอาจมีหน้าต่างต้อนรับหรือข้อตกลงการใช้งานเด้งขึ้นมา ให้ติ๊กยอมรับแล้วกด <span class="ui">Continue</span> ไปได้เลย</p>
+          </div>
+          <figure>
+            <div class="gs">
+              <div class="gsignin">
+                <div class="glogo"><span style="color:#4285f4">G</span><span style="color:#ea4335">o</span><span style="color:#fbbc05">o</span><span style="color:#4285f4">g</span><span style="color:#34a853">l</span><span style="color:#ea4335">e</span></div>
+                <div style="font-size:20px;margin-top:8px">Sign in</div>
+                <div style="font-size:12.5px;color:#444">to continue to Google AI Studio</div>
+                <div class="gfield">Email or phone</div>
+                <div style="text-align:right;margin-top:14px"><span class="gnext">Next</span></div>
+              </div>
+            </div>
+            <figcaption>ภาพจำลองหน้าล็อกอินของ Google</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="n">2</div>
+      <div class="body">
+        <h3>กดปุ่ม Create API key มุมขวาบน</h3>
+        <div class="mockrow">
+          <div class="txt">
+            <p>จะเห็นหน้าชื่อ <b>API Keys</b> — กดปุ่ม <span class="ui">Create API key</span> ที่มุมขวาบนของหน้า</p>
+            <p class="aside">ถ้าไปโผล่หน้าอื่น (เช่น Playground ที่มีช่องพิมพ์แชต) ให้กดเมนู <span class="ui">API Keys</span> ทางซ้าย หรือกดปุ่มสีฟ้าด้านบนของหน้านี้อีกครั้ง</p>
+          </div>
+          <figure>
+            <div class="gs">
+              <div class="addr"><span class="url"><b>aistudio.google.com</b>/api-keys</span></div>
+              <div class="pad">
+                <div class="top">
+                  <span class="title">API Keys</span>
+                  <span class="gbtn plain">API quickstart</span>
+                  <span class="gbtn hl">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7.5" cy="15.5" r="4.5"></circle><path d="m21 2-9.6 9.6"></path><path d="m15.5 7.5 3 3L22 7l-3-3"></path></svg>
+                    Create API key
+                  </span>
+                </div>
+                <div class="side" style="display:flex;gap:6px;margin-top:12px">
+                  <div class="on">API Key</div><div>Project</div>
+                </div>
+                <div style="text-align:center;color:var(--gs-muted);font-size:12px;padding:22px 0 6px">Can’t find your API keys here?</div>
+              </div>
+            </div>
+            <figcaption>ปุ่มในวงสีส้มคือปุ่มที่ต้องกด</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="n">3</div>
+      <div class="body">
+        <h3>ตั้งชื่อคีย์ เลือกโปรเจกต์ แล้วกด Create key</h3>
+        <div class="mockrow">
+          <div class="txt">
+            <p><b>Name your key</b> — พิมพ์ชื่ออะไรก็ได้ เช่น <code>Agent-1</code> (ไว้จำเองว่าคีย์นี้ใช้กับอะไร)</p>
+            <p><b>Choose an imported project</b> — เลือก <span class="ui">Default Gemini Project</span> ถ้าในรายการว่างหรือไม่มีให้เลือก กดเมนูเดียวกันแล้วเลือก <span class="ui">Create project</span> ตั้งชื่ออะไรก็ได้</p>
+            <p>แล้วกด <span class="ui">Create key</span></p>
+          </div>
+          <figure>
+            <div class="gs">
+              <div class="pad" style="background:#0d0d0e">
+                <div class="dialog">
+                  <div class="h"><span>Create a new key</span><span style="color:var(--gs-muted)">✕</span></div>
+                  <div class="lbl">Name your key</div>
+                  <div class="field"><span>Agent-1</span></div>
+                  <div class="lbl">Choose an imported project</div>
+                  <div class="field"><span>Default Gemini Project</span><span style="color:var(--gs-muted)">▾</span></div>
+                  <div class="foot">
+                    <span class="gbtn plain">Cancel</span>
+                    <span class="gbtn fill hl">Create key</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <figcaption>หน้าต่างสร้างคีย์ (หัวข้ออาจเขียนต่างไปเล็กน้อย ช่องกรอกเหมือนกัน)</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="n">4</div>
+      <div class="body">
+        <h3>กดไอคอนคัดลอกที่แถวของคีย์</h3>
+        <div class="mockrow">
+          <div class="txt">
+            <p>คีย์ใหม่จะขึ้นเป็นแถวในตาราง — กด<b>ไอคอนสี่เหลี่ยมซ้อนกัน</b> (ตัวแรกทางขวาของแถว) ถ้าขึ้นข้อความ <b>Copied to clipboard</b> ด้านล่างแปลว่าคัดลอกแล้ว</p>
+            <p class="aside">ช่อง Billing Tier ขึ้น <b>Free tier</b> = ใช้ฟรี ไม่ต้องกด Set up billing</p>
+          </div>
+          <figure>
+            <div class="gs">
+              <div class="pad">
+                <div class="top"><span class="title">API Keys</span></div>
+                <table>
+                  <thead><tr><th>Key</th><th>Project</th><th>Billing Tier</th><th></th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td>…k3Qw<div class="sub">Agent-1</div></td>
+                      <td>Default Gemini Project</td>
+                      <td><span style="color:var(--gs-link)">Set up billing</span><div class="sub">Free tier</div></td>
+                      <td>
+                        <div class="icons">
+                          <span class="ico hl" title="คัดลอก">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e3e3e3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                          </span>
+                          <span class="ico">⋮</span>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="toast">Copied to clipboard.</div>
+              </div>
+            </div>
+            <figcaption>กดไอคอนในวงสีส้ม แล้วข้อความเทาจะเด้งขึ้นด้านล่าง</figcaption>
+          </figure>
+        </div>
+        <p class="warnbox" style="margin-top:12px"><b>คีย์นี้เหมือนรหัสผ่าน</b> — อย่าโพสต์ในกลุ่มแชต อย่าแคปจอส่งใคร ถ้าเผลอหลุดไป กด <span class="ui">⋮</span> ที่แถวนั้นแล้วลบทิ้ง จากนั้นสร้างใบใหม่</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="n ok">5</div>
+      <div class="body">
+        <h3>วางในแอป Agent-1 แล้วกด บันทึกและทดสอบ</h3>
+        <div class="mockrow">
+          <div class="txt">
+            <p>กลับมาที่แอป Agent-1 ขั้น <b>“วางคีย์ AI หนึ่งใบ”</b> → คลิกช่อง <b>คีย์ API</b> → กด <code>Ctrl</code>+<code>V</code> (Mac ใช้ <code>⌘</code>+<code>V</code>)</p>
+            <p>ป้ายเขียว <b>Google Gemini</b> จะขึ้นเอง → กด <span class="ui">บันทึกและทดสอบ</span> → ขึ้นกรอบเขียวแปลว่าเสร็จ กด <span class="ui">ไปต่อ</span> ได้เลย</p>
+            <p class="aside">ผ่านขั้นตั้งค่าไปแล้ว? วางได้ที่เมนู <b>เครื่องมือ › API คีย์ผู้ให้บริการ</b></p>
+          </div>
+          <figure>
+            <div class="app">
+              <div class="card">
+                <div class="h">วางคีย์ AI หนึ่งใบ</div>
+                <div class="d">ใช้คิดหัวข้อ เขียนบท ระบบจะรู้เองว่าเป็นคีย์ของค่ายไหน</div>
+                <div class="lbl">คีย์ API</div>
+                <div class="inp">AIzaSy••••••••••••••••••••••••k3Qw</div>
+                <div class="badges"><span class="badge">Google Gemini</span><span class="badge n">โมเดลเริ่มต้น: gemini-…-flash-lite</span></div>
+                <span class="btn hl">บันทึกและทดสอบ</span>
+                <div class="okline">✓ ใช้งานได้ — บันทึกแล้ว ใช้คิดหัวข้อและเขียนบทได้ทันที</div>
+              </div>
+            </div>
+            <figcaption>ภาพจำลองขั้น 2 ในแอป Agent-1</figcaption>
+          </figure>
+        </div>
+        <p class="tip" style="margin-top:12px"><b>เสร็จแล้ว!</b> คีย์ถูกเข้ารหัสเก็บไว้ในเครื่องคุณเท่านั้น ไม่ต้องทำขั้นนี้ซ้ำอีก</p>
+      </div>
+    </div>
+
+  </div>
+
+  <h2>ติดปัญหา?</h2>
+
+  <details>
+    <summary>เข้าหน้าเว็บแล้วขึ้นว่าใช้ไม่ได้ / ไม่มีปุ่ม Create API key<span class="caret">▾</span></summary>
+    <div class="inner">
+      <p>มักเกิดกับ<b>บัญชีบริษัทหรือโรงเรียน</b> (ผู้ดูแลระบบปิดไว้) หรือบัญชีที่ตั้งอายุต่ำกว่า 18 ปี — ออกจากระบบแล้วล็อกอินด้วย <b>Gmail ส่วนตัว</b> แทน</p>
+      <p>ถ้าใช้ Gmail ส่วนตัวแล้วยังไม่ได้ ลองเปิดหน้าต่างไม่ระบุตัวตน (<code>Ctrl</code>+<code>Shift</code>+<code>N</code>) แล้วล็อกอินบัญชีเดียวในหน้านั้น — กรณีล็อกอินหลายบัญชีพร้อมกัน หน้าเว็บอาจไปเปิดด้วยบัญชีที่ไม่ได้ตั้งใจ</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>ช่องเลือกโปรเจกต์ว่าง ไม่มีอะไรให้เลือก<span class="caret">▾</span></summary>
+    <div class="inner">
+      <p>กดเมนูเลือกโปรเจกต์แล้วเลือก <span class="ui">Create project</span> ตั้งชื่ออะไรก็ได้ เช่น <code>Agent-1</code> → กดสร้าง แล้วเลือกโปรเจกต์นั้นในช่องเดิม</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>วางในแอปแล้วขึ้นป้ายส้ม “ไม่รู้จักรูปแบบคีย์นี้”<span class="caret">▾</span></summary>
+    <div class="inner">
+      <p>แปลว่าคัดลอกมาไม่ครบหรือติดอย่างอื่นมาด้วย คีย์ของ Google <b>ขึ้นต้นด้วย <code>AIza</code></b> ยาวราว 39 ตัว ไม่มีเว้นวรรค — ลบในช่องให้ว่าง แล้วกลับไปกดไอคอนคัดลอกที่หน้า API Keys ใหม่ (อย่าลากคลุมตัวหนังสือเอง เพราะตารางแสดงแค่ท้ายคีย์)</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>ทดสอบแล้วขึ้นว่าเกินโควตา / ใช้ไม่ได้ชั่วคราว<span class="caret">▾</span></summary>
+    <div class="inner">
+      <p>คีย์ฟรีมีเพดานจำนวนครั้งต่อนาทีและต่อวัน ถ้าเพิ่งสร้างคีย์ รอสัก 1-2 นาทีแล้วกดทดสอบใหม่ คีย์ยังถูกบันทึกไว้แล้ว ทดสอบซ้ำได้ที่ <b>เครื่องมือ › API คีย์ผู้ให้บริการ</b></p>
+      <p>ถ้าใช้งานจริงแล้วชนเพดานบ่อย ค่อยกด <span class="ui">Set up billing</span> ที่แถวของคีย์เพื่อผูกบัตรกับ Google เอง — จ่ายตามที่ใช้จริง ดูยอดได้ที่ <b>เครื่องมือ › การใช้งาน API</b> ในแอป (ขั้นนี้ไม่บังคับ)</p>
+    </div>
+  </details>
+
+  <details>
+    <summary>ใช้คีย์ใบเดียวกับหลายเครื่องได้ไหม<span class="caret">▾</span></summary>
+    <div class="inner">
+      <p>ได้ แต่ทุกเครื่องจะแชร์เพดานฟรีก้อนเดียวกัน — ถ้ามีหลายเครื่อง แนะนำสร้างคีย์แยกเครื่องละใบ (กด Create API key ซ้ำได้เลย ตั้งชื่อต่างกัน)</p>
+    </div>
+  </details>
+
+  <footer>
+    ตั้งค่าขั้นต่อไป: <a href="./">คู่มือเริ่มต้นใช้งานฉบับเต็ม</a> · ยังไม่ได้ลงแอป: <a href="./install.html">วิธีติดตั้ง</a>
+  </footer>
+
+</div>
+</body>
+</html>
