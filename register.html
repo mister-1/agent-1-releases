@@ -377,9 +377,9 @@ footer a { color: inherit; }
           <span class="hint">ใช้ยืนยันตัวตนเวลาย้ายเครื่อง — ต้องเป็นอีเมลที่คุณเข้าใช้ได้จริง</span>
         </div>
         <div class="field">
-          <label for="inbox_name">ชื่อที่ใช้ทักในแชท<span class="req">*</span></label>
-          <input type="text" id="inbox_name" name="inbox_name" autocomplete="nickname" maxlength="120" required placeholder="ชื่อเล่น / ชื่อโปรไฟล์">
-          <span class="hint">ชื่อที่โชว์ตอนคุณทักมาทาง LINE หรือ Facebook — ให้ผู้ดูแลจับคู่กับแชทได้ถูกคน</span>
+          <label for="inbox_name">ชื่อโปรไฟล์ที่ทักมาในแชท<span class="req">*</span></label>
+          <input type="text" id="inbox_name" name="inbox_name" autocomplete="off" maxlength="120" required placeholder="ชื่อโปรไฟล์ LINE / Facebook ที่คุณใช้ทักมา">
+          <span class="hint">กรอกชื่อโปรไฟล์ตามที่โชว์ในแชท LINE หรือ Facebook ตอนคุณทักมา (ไม่ใช่ชื่อเล่น) — ผู้ดูแลจะใช้ค้นหาแชทของคุณเพื่อส่ง License Key กลับไปให้</span>
         </div>
       </div>
     </fieldset>
@@ -510,7 +510,7 @@ footer a { color: inherit; }
       missing.push(email ? 'อีเมล (รูปแบบไม่ถูกต้อง)' : 'อีเมล');
       form.elements.owner_email.classList.add('bad');
     }
-    if (!val('inbox_name')) { missing.push('ชื่อที่ใช้ทักในแชท'); form.elements.inbox_name.classList.add('bad'); }
+    if (!val('inbox_name')) { missing.push('ชื่อโปรไฟล์ที่ทักมาในแชท'); form.elements.inbox_name.classList.add('bad'); }
     if (!val('phone')) { missing.push('เบอร์โทรศัพท์'); form.elements.phone.classList.add('bad'); }
     if (missing.length) {
       showError('กรุณากรอก: ' + missing.join(' · '));
