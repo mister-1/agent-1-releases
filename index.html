@@ -210,6 +210,15 @@ footer.bottom { margin-top: 28px; padding-top: 16px; border-top: 1px solid var(-
 @media (min-width: 640px) {
   .step { grid-template-columns: 1.15fr 0.85fr; }
 }
+/* คลิปสอนใช้งาน — ไฟล์อยู่บน agent1-app.pages.dev/media (publish-guide.mjs ส่งขึ้นพร้อมหน้า) ใช้ที่อยู่เต็มเพราะหน้านี้ถูกเผยแพร่ขึ้น GitHub Pages ด้วย */
+.tut { background: var(--surface); border: 1.5px solid var(--line); border-radius: 16px; padding: 16px; box-shadow: var(--shadow); margin: 20px 0; }
+.tut-head b { display: block; font-size: 17px; color: var(--text); }
+.tut-head span { display: block; font-size: 14px; color: var(--muted); margin-top: 2px; }
+.tut video { display: block; width: 100%; aspect-ratio: 16 / 9; background: #0b1220; border-radius: 10px; margin-top: 12px; }
+.tut-ch { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.tut-ch button { font: inherit; font-size: 13px; color: var(--text); background: var(--sunken); border: 1px solid var(--line); border-radius: 999px; padding: 5px 11px; cursor: pointer; }
+.tut-ch button:hover { border-color: var(--primary); color: var(--primary); }
+.tut-ch button b { font-variant-numeric: tabular-nums; color: var(--primary); font-weight: 600; margin-right: 4px; }
 </style>
 </head>
 <body>
@@ -226,9 +235,28 @@ footer.bottom { margin-top: 28px; padding-top: 16px; border-top: 1px solid var(-
     <div class="chips">
       <span class="chip"><b>4 ขั้นบังคับ</b> ~10 นาที</span>
       <span class="chip">ทำในหน้าต่างเดียว <b>ไม่ต้องสลับเมนู</b></span>
-      <span class="chip">ปรับปรุงหน้านี้ล่าสุด <b data-guide-updated>10 ต.ค. 2569</b></span>
+      <span class="chip">ปรับปรุงหน้านี้ล่าสุด <b data-guide-updated>11 ต.ค. 2569</b></span>
     </div>
   </header>
+
+  <section class="tut" id="video">
+    <div class="tut-head">
+      <b>ดูคลิปสอนก่อน · 7 นาที</b>
+      <span>ทุกขั้นตั้งแต่ลงทะเบียน จนคลิปแรกโพสต์ขึ้นช่อง — กดหัวข้อด้านล่างเพื่อข้ามไปขั้นที่ต้องการ</span>
+    </div>
+    <video controls preload="metadata" playsinline poster="https://agent1-app.pages.dev/media/agent1-tutorial-poster.jpg" src="https://agent1-app.pages.dev/media/agent1-tutorial.mp4"></video>
+    <div class="tut-ch">
+      <button type="button" data-t="35"><b>0:35</b>ลงทะเบียน · ซีเรียล</button>
+      <button type="button" data-t="72"><b>1:12</b>คีย์ API</button>
+      <button type="button" data-t="130"><b>2:10</b>โปรไฟล์ผลิตคลิป</button>
+      <button type="button" data-t="198"><b>3:18</b>ช่อง + โปรไฟล์โพสต์</button>
+      <button type="button" data-t="286"><b>4:46</b>หาไอเดีย</button>
+      <button type="button" data-t="340"><b>5:40</b>คลังหัวข้อ</button>
+      <button type="button" data-t="362"><b>6:02</b>คิวงาน</button>
+      <button type="button" data-t="380"><b>6:20</b>ห้องควบคุม</button>
+      <button type="button" data-t="395"><b>6:35</b>อนุมัติ · โพสต์</button>
+    </div>
+  </section>
 
   <a class="install-cta" href="./install.html">
     <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg></span>
@@ -727,5 +755,14 @@ footer.bottom { margin-top: 28px; padding-top: 16px; border-top: 1px solid var(-
   </footer>
 
 </div>
+<script>
+// ปุ่มหัวข้อใต้คลิปสอน — กระโดดไปวินาทีนั้นแล้วเล่นต่อ (ไม่มี JS ก็ยังกดเล่นคลิปเองได้)
+document.querySelectorAll('.tut').forEach(function (box) {
+  var v = box.querySelector('video');
+  box.querySelectorAll('[data-t]').forEach(function (b) {
+    b.addEventListener('click', function () { v.currentTime = +b.dataset.t; v.play(); });
+  });
+});
+</script>
 </body>
 </html>
