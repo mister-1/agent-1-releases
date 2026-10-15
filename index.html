@@ -218,6 +218,7 @@ footer.bottom { margin-top: 28px; padding-top: 16px; border-top: 1px solid var(-
 .tut-ch { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
 .tut-ch button { font: inherit; font-size: 13px; color: var(--text); background: var(--sunken); border: 1px solid var(--line); border-radius: 999px; padding: 5px 11px; cursor: pointer; }
 .tut-ch button:hover { border-color: var(--primary); color: var(--primary); }
+.tut-ch button.on { border-color: var(--primary); color: var(--primary); }
 .tut-ch button b { font-variant-numeric: tabular-nums; color: var(--primary); font-weight: 600; margin-right: 4px; }
 </style>
 </head>
@@ -235,7 +236,7 @@ footer.bottom { margin-top: 28px; padding-top: 16px; border-top: 1px solid var(-
     <div class="chips">
       <span class="chip"><b>4 ขั้นบังคับ</b> ~10 นาที</span>
       <span class="chip">ทำในหน้าต่างเดียว <b>ไม่ต้องสลับเมนู</b></span>
-      <span class="chip">ปรับปรุงหน้านี้ล่าสุด <b data-guide-updated>12 ต.ค. 2569</b></span>
+      <span class="chip">ปรับปรุงหน้านี้ล่าสุด <b data-guide-updated>16 ต.ค. 2569</b></span>
     </div>
   </header>
 
@@ -255,6 +256,24 @@ footer.bottom { margin-top: 28px; padding-top: 16px; border-top: 1px solid var(-
       <button type="button" data-t="363"><b>6:02</b>คิวงาน</button>
       <button type="button" data-t="381"><b>6:20</b>ห้องควบคุม</button>
       <button type="button" data-t="397"><b>6:35</b>อนุมัติ · โพสต์</button>
+    </div>
+  </section>
+
+  <section class="tut" id="ideas-video">
+    <div class="tut-head">
+      <b>คลิปสอนรายเมนู · หาไอเดีย 8 ตอน</b>
+      <span>ตอนละ 1–3 นาที ลงรายละเอียดทีละเมนู — กดตอนด้านล่างเพื่อเปลี่ยนคลิป · <a href="https://www.youtube.com/playlist?list=PLCRXGKvJi7-Y" target="_blank" rel="noopener">ดูเป็นเพลย์ลิสต์บน YouTube</a></span>
+    </div>
+    <video controls preload="metadata" playsinline poster="https://agent1-app.pages.dev/media/ideas/01-overview.jpg" src="https://agent1-app.pages.dev/media/ideas/01-overview.mp4"></video>
+    <div class="tut-ch">
+      <button type="button" data-src="01-overview" class="on"><b>ตอน 1</b>ภาพรวม 7 เมนู · 2:29</button>
+      <button type="button" data-src="02-trend"><b>ตอน 2</b>ค้นหาเทรน · 2:30</button>
+      <button type="button" data-src="03-ideas"><b>ตอน 3</b>ไอเดียคลิป · 1:26</button>
+      <button type="button" data-src="04-hype"><b>ตอน 4</b>ขายตามกระแส · 1:41</button>
+      <button type="button" data-src="05-story"><b>ตอน 5</b>แต่งเรื่อง · 2:36</button>
+      <button type="button" data-src="06-docu"><b>ตอน 6</b>สารคดี-เล่าเรื่อง · 2:57</button>
+      <button type="button" data-src="07-commerce"><b>ตอน 7</b>สินค้า · 2:48</button>
+      <button type="button" data-src="08-store"><b>ตอน 8</b>ร้านของฉัน · 1:36</button>
     </div>
   </section>
 
@@ -793,6 +812,14 @@ document.querySelectorAll('.tut').forEach(function (box) {
   var v = box.querySelector('video');
   box.querySelectorAll('[data-t]').forEach(function (b) {
     b.addEventListener('click', function () { v.currentTime = +b.dataset.t; v.play(); });
+  });
+  // คลิปรายเมนู — ปุ่มตอนสลับไฟล์ในเครื่องเล่นตัวเดียว
+  box.querySelectorAll('[data-src]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var m = 'https://agent1-app.pages.dev/media/ideas/' + b.dataset.src;
+      v.poster = m + '.jpg'; v.src = m + '.mp4'; v.play();
+      box.querySelectorAll('[data-src]').forEach(function (x) { x.classList.toggle('on', x === b); });
+    });
   });
 });
 </script>
