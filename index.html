@@ -259,7 +259,7 @@ footer.bottom { margin-top: 28px; padding-top: 16px; border-top: 1px solid var(-
     </div>
   </section>
 
-  <section class="tut" id="ideas-video">
+  <section class="tut" id="ideas-video" data-media="ideas">
     <div class="tut-head">
       <b>คลิปสอนรายเมนู · หาไอเดีย 8 ตอน</b>
       <span>ตอนละ 1–3 นาที ลงรายละเอียดทีละเมนู — กดตอนด้านล่างเพื่อเปลี่ยนคลิป · <a href="https://www.youtube.com/playlist?list=PLCRXGKvJi7-Y" target="_blank" rel="noopener">ดูเป็นเพลย์ลิสต์บน YouTube</a></span>
@@ -274,6 +274,21 @@ footer.bottom { margin-top: 28px; padding-top: 16px; border-top: 1px solid var(-
       <button type="button" data-src="06-docu"><b>ตอน 6</b>สารคดี-เล่าเรื่อง · 2:57</button>
       <button type="button" data-src="07-commerce"><b>ตอน 7</b>สินค้า · 2:48</button>
       <button type="button" data-src="08-store"><b>ตอน 8</b>ร้านของฉัน · 1:36</button>
+    </div>
+  </section>
+
+  <section class="tut" id="production-video" data-media="production">
+    <div class="tut-head">
+      <b>คลิปสอนรายเมนู · สายการผลิต 5 ตอน</b>
+      <span>ได้หัวข้อแล้วทำต่อยังไง — คลังหัวข้อ คิวงาน ห้องควบคุม คลังเนื้อหา จนอนุมัติแล้วโพสต์ขึ้นช่อง · <a href="https://www.youtube.com/playlist?list=PLIe2y9bcT3zU" target="_blank" rel="noopener">ดูเป็นเพลย์ลิสต์บน YouTube</a></span>
+    </div>
+    <video controls preload="metadata" playsinline poster="https://agent1-app.pages.dev/media/production/01-topic.jpg" src="https://agent1-app.pages.dev/media/production/01-topic.mp4"></video>
+    <div class="tut-ch">
+      <button type="button" data-src="01-topic" class="on"><b>ตอน 1</b>คลังหัวข้อ · 1:59</button>
+      <button type="button" data-src="02-queue"><b>ตอน 2</b>คิวงาน · 1:55</button>
+      <button type="button" data-src="03-control"><b>ตอน 3</b>ห้องควบคุม · 1:17</button>
+      <button type="button" data-src="04-cargo"><b>ตอน 4</b>คลังเนื้อหา · 1:46</button>
+      <button type="button" data-src="05-post"><b>ตอน 5</b>อนุมัติแล้วโพสต์ · 2:24</button>
     </div>
   </section>
 
@@ -816,7 +831,7 @@ document.querySelectorAll('.tut').forEach(function (box) {
   // คลิปรายเมนู — ปุ่มตอนสลับไฟล์ในเครื่องเล่นตัวเดียว
   box.querySelectorAll('[data-src]').forEach(function (b) {
     b.addEventListener('click', function () {
-      var m = 'https://agent1-app.pages.dev/media/ideas/' + b.dataset.src;
+      var m = 'https://agent1-app.pages.dev/media/' + (box.dataset.media || 'ideas') + '/' + b.dataset.src;
       v.poster = m + '.jpg'; v.src = m + '.mp4'; v.play();
       box.querySelectorAll('[data-src]').forEach(function (x) { x.classList.toggle('on', x === b); });
     });
