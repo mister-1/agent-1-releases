@@ -11,9 +11,9 @@
 | ระบบ | ไฟล์ | ขนาด |
 |---|---|---|
 | Windows 10 / 11 (64-bit) | [Agent-1-Setup.exe](https://github.com/mister-1/agent-1-releases/releases/latest/download/Agent-1-Setup.exe) | ~165 MB |
-| Mac ชิป Apple (M1 ขึ้นไป) | [Agent-1-macOS-Apple-Silicon.dmg](https://github.com/mister-1/agent-1-releases/releases/latest/download/Agent-1-macOS-Apple-Silicon.dmg) | ~185 MB |
+| Mac ชิป Apple (M1 ขึ้นไป) | ทักแอดมินเพื่อขอไฟล์ติดตั้ง — จะได้ลิงก์ทางแชทเดิม | ~185 MB |
 
-ลิงก์ทั้งสองชี้ไปที่รุ่นล่าสุดเสมอ ไม่ต้องเปลี่ยนลิงก์ตอนมีรุ่นใหม่ — **Mac ชิป Intel ยังไม่รองรับ** ต้องเป็นเครื่องชิป Apple (M1/M2/M3/M4) เท่านั้น
+ลิงก์ Windows ชี้ไปที่รุ่นล่าสุดเสมอ ไม่ต้องเปลี่ยนลิงก์ตอนมีรุ่นใหม่ — **Mac ชิป Intel ยังไม่รองรับ** ต้องเป็นเครื่องชิป Apple (M1/M2/M3/M4) เท่านั้น
 
 ## เตรียมให้พร้อมก่อน
 
@@ -83,7 +83,7 @@
 Mac ชิป Intel ยังไม่รองรับ ติดตั้งไปก็เปิดไม่ขึ้น
 
 ### 1. โหลดตัวติดตั้ง
-กด [Agent-1-macOS-Apple-Silicon.dmg](https://github.com/mister-1/agent-1-releases/releases/latest/download/Agent-1-macOS-Apple-Silicon.dmg) ในตารางด้านบน
+ทักแอดมินเพื่อขอไฟล์ `Agent-1-macOS-Apple-Silicon.dmg` — แอดมินจะส่งลิงก์ให้ทางแชทเดิม
 
 ### 2. ลากแอปไปโฟลเดอร์ Applications
 ดับเบิลคลิกไฟล์ `.dmg` → หน้าต่างที่เปิดขึ้นมามีไอคอน Agent-1 กับทางลัดโฟลเดอร์ Applications อยู่คู่กัน ลากไปวางทับได้เลย
