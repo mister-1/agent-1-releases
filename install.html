@@ -79,6 +79,7 @@ h1 { margin: 14px 0 6px; font-size: 27px; line-height: 1.3; font-weight: 700; }
 .dl .t { font-weight: 700; font-size: 16.5px; line-height: 1.35; }
 .dl .s { font-size: 13px; opacity: .85; }
 .dl svg { flex: none; }
+.dl.note, .dl.note:hover { background: var(--warn-bg); color: var(--text); box-shadow: none; border: 1px solid var(--line); }
 /* ปุ่มข้ามไปคู่มือฉบับเต็ม — สีอ่อนกว่าปุ่มดาวน์โหลดเพื่อไม่แย่งความสนใจของขั้นที่กำลังทำอยู่ */
 .dl.ghost { background: var(--surface); color: var(--text); border: 1.5px solid var(--line); }
 .dl.ghost:hover { border-color: var(--primary); }
@@ -339,13 +340,15 @@ footer a { color: var(--primary); }
       <div class="inner">กดโลโก้แอปเปิลมุมซ้ายบนสุด → <span class="ui">About This Mac</span> → ดูบรรทัด <b>Chip</b> ต้องขึ้น M1 / M2 / M3 / M4 — <b>Mac ชิป Intel ยังไม่รองรับ</b> ติดตั้งไปก็เปิดไม่ขึ้น</div>
     </details>
 
-    <a class="dl" href="https://github.com/mister-1/agent-1-releases/releases/latest/download/Agent-1-macOS-Apple-Silicon.dmg">
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+    <!-- Mac ไม่มีลิงก์โหลดตรงตั้งแต่ 20 ต.ค. 2569 — แพ็กเป็นครั้ง ๆ ตอนมีลูกค้า Mac (Actions → Build macOS Release)
+         แล้วแอดมินส่งลิงก์ release "mac" ให้ทางแชท ดู BUILD_INSTALLER.md -->
+    <div class="dl note" role="note">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
       <span>
-        <span class="t">ดาวน์โหลดสำหรับ Mac</span><br>
-        <span class="s">Agent-1-macOS-Apple-Silicon.dmg · ~185 MB</span>
+        <span class="t">Mac: ทักแอดมินเพื่อขอไฟล์ติดตั้ง</span><br>
+        <span class="s">แอดมินจะเตรียมรุ่นล่าสุดแล้วส่งลิงก์ให้ทางแชทเดิม (ไฟล์ .dmg ~185 MB)</span>
       </span>
-    </a>
+    </div>
     <p class="aside">ก่อนเริ่ม: เครื่องต้องมี <b>Chrome หรือ Edge</b> · แรม 8 GB ขึ้นไป · พื้นที่ว่าง 5 GB · และต้องต่อเน็ตตอนกรอก License Key</p>
 
     <div class="step">
