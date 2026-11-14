@@ -307,6 +307,59 @@ textarea { resize: vertical; min-height: 84px; }
 .modal p { margin: 0; color: var(--muted); line-height: 1.6; }
 .modal p b { color: var(--text); font-weight: 600; }
 
+/* ── เลือกว่าจะทดลองหรือซื้อ (0.398.0) ── */
+.modes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 560px) { .modes { grid-template-columns: 1fr; } }
+.mode {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  border: 1.5px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  padding: 14px 16px;
+  cursor: pointer;
+  user-select: none;
+  transition: border-color .12s, background .12s;
+}
+.mode input { margin: 4px 0 0; accent-color: var(--primary); flex: none; }
+.mode b { display: block; font-size: 15.5px; }
+.mode span { display: block; font-size: 13px; color: var(--muted); line-height: 1.5; }
+.mode:has(input:checked) { border-color: var(--primary); background: var(--primary-ghost); }
+.mode .tag {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--ok);
+  color: #fff;
+  font-size: 11.5px;
+  font-weight: 700;
+  vertical-align: 2px;
+}
+body.trial .buy-only { display: none !important; }
+body:not(.trial) .trial-only { display: none !important; }
+/* ── คีย์ทดลองบนหน้าจอ ── */
+.keybox {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  border: 1px dashed var(--primary);
+  border-radius: 14px;
+  background: var(--primary-ghost);
+  padding: 14px 16px;
+}
+.keybox code {
+  font-family: var(--f-mono);
+  font-size: clamp(18px, 5vw, 24px);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--text);
+  word-break: break-all;
+  flex: 1 1 220px;
+}
+.keybox .btn { width: auto; padding: 9px 16px; }
 footer {
   border-top: 1px solid var(--line);
   padding-top: 16px;
@@ -323,13 +376,50 @@ footer a { color: inherit; }
 <div class="wrap">
 
   <header class="masthead">
-    <p class="eyebrow">Agent-1 · ลงทะเบียนขอใบอนุญาต</p>
-    <h1>กรอกข้อมูลเพื่อรับ License Key</h1>
-    <p class="lede">
+    <p class="eyebrow buy-only">Agent-1 · ลงทะเบียนขอใบอนุญาต</p>
+    <p class="eyebrow trial-only">Agent-1 · ทดลองใช้ฟรี</p>
+    <h1 class="buy-only">กรอกข้อมูลเพื่อรับ License Key</h1>
+    <h1 class="trial-only">ทดลองใช้ฟรี 7 วัน ได้คีย์ทันที</h1>
+    <p class="lede trial-only">
+      กรอกข้อมูลไม่ถึง 1 นาที <b>License Key จะขึ้นบนหน้านี้ทันที</b> และส่งเข้าอีเมลให้ด้วย
+      ใช้ได้ทุกเมนู 1 เครื่อง ไม่ต้องผูกบัตร ไม่ต้องรอแอดมิน
+    </p>
+    <p class="lede buy-only">
       ใช้เวลาไม่ถึง 2 นาที <b>ผู้ดูแลจะตรวจสอบแล้วส่ง License Key ให้ทางช่องทางที่คุณให้ไว้</b>
       ระหว่างรอ อ่านคู่มือและดาวน์โหลดตัวติดตั้งเตรียมไว้ได้เลย
     </p>
   </header>
+
+  <div class="modes" id="modes" role="radiogroup" aria-label="เลือกสิ่งที่ต้องการ">
+    <label class="mode">
+      <input type="radio" name="mode" value="trial">
+      <div><b>ทดลองใช้ฟรี 7 วัน<span class="tag">ได้คีย์ทันที</span></b><span>ลองทุกเมนูก่อนตัดสินใจ ไม่ต้องรอแอดมิน</span></div>
+    </label>
+    <label class="mode">
+      <input type="radio" name="mode" value="buy">
+      <div><b>ขอซื้อ License Key</b><span>ผู้ดูแลตรวจข้อมูลแล้วส่งคีย์ให้ทางแชทและอีเมล</span></div>
+    </label>
+  </div>
+
+  <section class="done" id="trial-done" aria-live="polite">
+    <h2><span class="tick">✓</span> คีย์ทดลองใช้ของคุณพร้อมแล้ว</h2>
+    <div class="keybox">
+      <code id="trial-key"></code>
+      <button class="btn" type="button" id="trial-copy">คัดลอกคีย์</button>
+    </div>
+    <p id="trial-text"></p>
+    <ol>
+      <li><b>ติดตั้งโปรแกรม</b> — Windows จะเตือนตอนเปิดตัวติดตั้ง เป็นเรื่องปกติ หน้าวิธีติดตั้งมีภาพประกอบทุกขั้น</li>
+      <li><b>ขอ API Key ฟรี</b> จาก Google AI Studio (ราว 3 นาที)</li>
+      <li><b>เปิดแอป วางคีย์ด้านบน</b> แล้วตั้งค่าตามหน้าจอ</li>
+    </ol>
+    <div class="links">
+      <a class="btn" href="./install.html#windows" id="trial-install">วิธีติดตั้ง + ดาวน์โหลด</a>
+      <a class="btn ghost" href="./api-key.html">วิธีขอ API Key</a>
+      <a class="btn ghost" href="./">คู่มือฉบับเต็ม</a>
+    </div>
+    <p class="again">ใช้แล้วชอบ อยากใช้ต่อหลังหมดช่วงทดลอง? <a href="?mode=buy" id="trial-buy">ส่งคำขอซื้อ License Key</a> — งานและการตั้งค่าในเครื่องอยู่ครบ</p>
+  </section>
 
   <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <div class="box">
@@ -376,7 +466,7 @@ footer a { color: inherit; }
           <input type="email" id="owner_email" name="owner_email" autocomplete="email" inputmode="email" maxlength="160" required placeholder="you@example.com">
           <span class="hint">ใช้ยืนยันตัวตนเวลาย้ายเครื่อง — ต้องเป็นอีเมลที่คุณเข้าใช้ได้จริง</span>
         </div>
-        <div class="field">
+        <div class="field buy-only">
           <label for="inbox_name">ชื่อโปรไฟล์ที่ทักมาในแชท<span class="req">*</span></label>
           <input type="text" id="inbox_name" name="inbox_name" autocomplete="off" maxlength="120" required placeholder="ชื่อโปรไฟล์ LINE / Facebook ที่คุณใช้ทักมา">
           <span class="hint">กรอกชื่อโปรไฟล์ตามที่โชว์ในแชท LINE หรือ Facebook ตอนคุณทักมา (ไม่ใช่ชื่อเล่น) — ผู้ดูแลจะใช้ค้นหาแชทของคุณเพื่อส่ง License Key กลับไปให้</span>
@@ -414,7 +504,7 @@ footer a { color: inherit; }
         </div>
         <span class="hint">รองรับ Windows 10/11 และ Mac ชิป M1 ขึ้นไป — Mac ชิป Intel ยังไม่รองรับ</span>
       </div>
-      <div class="field">
+      <div class="field buy-only">
         <label for="message">ข้อความถึงผู้ดูแล</label>
         <textarea id="message" name="message" maxlength="1000" placeholder="เช่น แพ็กเกจที่สนใจ จำนวนเครื่องที่จะใช้ หรือคำถามอื่น ๆ"></textarea>
       </div>
@@ -427,7 +517,7 @@ footer a { color: inherit; }
 
     <div class="actions">
       <div class="alert" id="alert" role="alert"></div>
-      <button class="btn" type="submit" id="submit">ส่งข้อมูลให้ผู้ดูแล</button>
+      <button class="btn" type="submit" id="submit"></button>
       <p class="privacy">
         ข้อมูลนี้ใช้เพื่อออกใบอนุญาตและติดต่อเรื่องการใช้งาน Agent-1 เท่านั้น ไม่ส่งต่อให้ใคร
         และไม่ใช้ส่งโฆษณา — แจ้งผู้ดูแลได้ทุกเมื่อถ้าต้องการให้ลบข้อมูล
@@ -446,7 +536,10 @@ footer a { color: inherit; }
 (function () {
   // เส้นทางเดียวกับที่แอปใช้ยืนยันใบอนุญาต (LICENSE_API_URL ใน packages/shared/src/license-api.ts) + /request
   var API = 'https://isybspjpolddloxxnsli.supabase.co/functions/v1/license/request';
+  // ทดลองใช้ฟรี (0.398.0) — ได้ซีเรียลกลับมาทันที ดู handleTrial ใน supabase/functions/license/index.ts
+  var TRIAL_API = 'https://isybspjpolddloxxnsli.supabase.co/functions/v1/license/trial';
   var SENT_KEY = 'a1_register_sent';
+  var TRIAL_KEY = 'a1_trial_key';
 
   var form = document.getElementById('form');
   var done = document.getElementById('done');
@@ -480,10 +573,81 @@ footer a { color: inherit; }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
+  /*
+   * โหมด: ?mode=trial / ?trial=1 / #trial = ทดลองใช้ฟรี · ไม่ระบุ = ขอซื้อ (ลิงก์ที่ส่งให้ผู้ซื้อไปแล้วทำงานเหมือนเดิม)
+   */
+  var params = new URLSearchParams(location.search);
+  var trialDone = document.getElementById('trial-done');
+  var modes = document.getElementById('modes');
+  var mode = (params.get('mode') === 'trial' || params.get('trial') === '1' || location.hash === '#trial') ? 'trial' : 'buy';
+  function setMode(next) {
+    mode = next;
+    document.body.classList.toggle('trial', mode === 'trial');
+    submit.textContent = mode === 'trial' ? 'รับคีย์ทดลองใช้ฟรี' : 'ส่งข้อมูลให้ผู้ดูแล';
+    document.title = mode === 'trial' ? 'Agent-1 — ทดลองใช้ฟรี 7 วัน' : 'Agent-1 — ลงทะเบียนขอ License Key';
+    var radio = modes.querySelector('input[value="' + mode + '"]');
+    if (radio) radio.checked = true;
+    clearError();
+  }
+  modes.addEventListener('change', function (e) {
+    if (e.target && e.target.name === 'mode') setMode(e.target.value);
+  });
+  setMode(mode);
+
+  function thaiDate(iso) {
+    try { return new Date(iso).toLocaleDateString('th-TH', { day: 'numeric', month: 'long', year: 'numeric' }); }
+    catch (e) { return String(iso).slice(0, 10); }
+  }
+  function showTrial(t) {
+    document.getElementById('trial-key').textContent = t.serial;
+    document.getElementById('trial-text').innerHTML = '';
+    var p = document.getElementById('trial-text');
+    p.appendChild(document.createTextNode('ใช้ได้ถึง '));
+    var b = document.createElement('b'); b.textContent = thaiDate(t.expiresAt); p.appendChild(b);
+    p.appendChild(document.createTextNode(
+      ' · 1 เครื่อง · ทุกเมนู' + (t.emailed !== false ? ' — ส่งคีย์ไปที่ ' + t.email + ' ด้วยแล้ว (ไม่เห็นให้ดูโฟลเดอร์สแปม)' : '')
+    ));
+    if (t.platform === 'mac') document.getElementById('trial-install').href = './install.html#mac';
+    trialDone.classList.add('show');
+    form.style.display = 'none';
+    modes.style.display = 'none';
+    done.classList.remove('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  document.getElementById('trial-copy').addEventListener('click', function () {
+    var key = document.getElementById('trial-key').textContent;
+    var btn = this;
+    function ok() { btn.textContent = 'คัดลอกแล้ว ✓'; setTimeout(function () { btn.textContent = 'คัดลอกคีย์'; }, 2000); }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(key).then(ok, function () { window.prompt('คัดลอกคีย์นี้', key); });
+    } else {
+      window.prompt('คัดลอกคีย์นี้', key);
+    }
+  });
+  document.getElementById('trial-buy').addEventListener('click', function (e) {
+    e.preventDefault();
+    trialDone.classList.remove('show');
+    modes.style.display = '';
+    form.style.display = '';
+    setMode('buy');
+    form.elements.first_name.focus();
+  });
+  // เคยได้คีย์ทดลองจากเครื่องนี้แล้ว (ยังไม่หมด) — เปิดมาอีกทีเห็นคีย์เดิม ไม่ต้องกรอกใหม่หรือค้นอีเมล
+  var shownTrial = false;
+  if (mode === 'trial') {
+    try {
+      var prevTrial = JSON.parse(localStorage.getItem(TRIAL_KEY) || 'null');
+      if (prevTrial && prevTrial.serial && new Date(prevTrial.expiresAt).getTime() > Date.now()) {
+        showTrial(prevTrial);
+        shownTrial = true;
+      }
+    } catch (e) { /* ไม่มี localStorage ก็แค่แสดงฟอร์ม */ }
+  }
+
   // เคยส่งจากเครื่องนี้แล้ว — เปิดมาอีกทีให้เห็นว่าส่งแล้ว ไม่ต้องเดาว่าต้องกรอกซ้ำไหม
   try {
     var prev = JSON.parse(localStorage.getItem(SENT_KEY) || 'null');
-    if (prev && prev.email && Date.now() - (prev.at || 0) < 7 * 24 * 3600 * 1000) {
+    if (mode === 'buy' && !shownTrial && prev && prev.email && Date.now() - (prev.at || 0) < 7 * 24 * 3600 * 1000) {
       showDone(prev.email, false);
     }
   } catch (e) { /* ไม่มี localStorage ก็แค่แสดงฟอร์มตามปกติ */ }
@@ -510,7 +674,7 @@ footer a { color: inherit; }
       missing.push(email ? 'อีเมล (รูปแบบไม่ถูกต้อง)' : 'อีเมล');
       form.elements.owner_email.classList.add('bad');
     }
-    if (!val('inbox_name')) { missing.push('ชื่อโปรไฟล์ที่ทักมาในแชท'); form.elements.inbox_name.classList.add('bad'); }
+    if (mode === 'buy' && !val('inbox_name')) { missing.push('ชื่อโปรไฟล์ที่ทักมาในแชท'); form.elements.inbox_name.classList.add('bad'); }
     if (!val('phone')) { missing.push('เบอร์โทรศัพท์'); form.elements.phone.classList.add('bad'); }
     if (missing.length) {
       showError('กรุณากรอก: ' + missing.join(' · '));
@@ -537,7 +701,8 @@ footer a { color: inherit; }
     submit.disabled = true;
     submit.textContent = 'กำลังส่ง…';
     try {
-      var res = await fetch(API, {
+      var trial = mode === 'trial';
+      var res = await fetch(trial ? TRIAL_API : API, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify(payload)
@@ -548,6 +713,13 @@ footer a { color: inherit; }
         showError((data && data.error) || 'ส่งไม่สำเร็จ (' + res.status + ') — ลองใหม่อีกครั้ง หรือทักผู้ดูแลโดยตรง');
         return;
       }
+      if (trial) {
+        if (!data.serial) { showError('ขอทดลองใช้ไม่สำเร็จ — ลองใหม่อีกครั้ง หรือทักผู้ดูแลโดยตรง'); return; }
+        var t = { serial: data.serial, expiresAt: data.expiresAt, email: email, emailed: data.emailed, platform: payload.platform };
+        try { localStorage.setItem(TRIAL_KEY, JSON.stringify(t)); } catch (err) { /* ignore */ }
+        showTrial(t);
+        return;
+      }
       try { localStorage.setItem(SENT_KEY, JSON.stringify({ email: email, at: Date.now() })); } catch (err) { /* ignore */ }
       showDone(email, data.duplicate === true);
       modal.classList.add('show');
@@ -555,7 +727,7 @@ footer a { color: inherit; }
       showError('ต่อเซิร์ฟเวอร์ไม่ได้ — เช็คอินเทอร์เน็ตแล้วลองใหม่ หรือทักผู้ดูแลโดยตรง');
     } finally {
       submit.disabled = false;
-      submit.textContent = 'ส่งข้อมูลให้ผู้ดูแล';
+      submit.textContent = mode === 'trial' ? 'รับคีย์ทดลองใช้ฟรี' : 'ส่งข้อมูลให้ผู้ดูแล';
     }
   });
 })();
