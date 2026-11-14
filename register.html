@@ -681,6 +681,8 @@ footer a { color: inherit; }
     document.getElementById('trial-key').textContent = t.serial;
     document.getElementById('trial-text').innerHTML = '';
     var p = document.getElementById('trial-text');
+    // ลูกค้าเก่าที่คีย์เดิมหมดแล้ว ได้ทดลองรอบสอง (14 พ.ย. 2569) — ทักให้รู้ว่าเป็นสิทธิ์พิเศษครั้งเดียว
+    if (t.returning) p.appendChild(document.createTextNode('ยินดีต้อนรับกลับมา! สิทธิ์ทดลองรอบพิเศษสำหรับผู้ใช้เดิม (ครั้งเดียว) · '));
     p.appendChild(document.createTextNode('ใช้ได้ถึง '));
     var b = document.createElement('b'); b.textContent = thaiDate(t.expiresAt); p.appendChild(b);
     p.appendChild(document.createTextNode(
@@ -812,7 +814,7 @@ footer a { color: inherit; }
       }
       if (trial) {
         if (!data.serial) { showError('ขอทดลองใช้ไม่สำเร็จ — ลองใหม่อีกครั้ง หรือทักผู้ดูแลโดยตรง'); return; }
-        var t = { serial: data.serial, expiresAt: data.expiresAt, email: email, emailed: data.emailed, platform: payload.platform };
+        var t = { serial: data.serial, expiresAt: data.expiresAt, email: email, emailed: data.emailed, platform: payload.platform, returning: data.returning === true };
         try { localStorage.setItem(TRIAL_KEY, JSON.stringify(t)); } catch (err) { /* ignore */ }
         showTrial(t);
         return;
