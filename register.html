@@ -490,6 +490,11 @@ footer a { color: inherit; }
         <label for="contact_tel">เบอร์สำรอง</label>
         <input type="tel" id="contact_tel" name="contact_tel" inputmode="tel" maxlength="40" placeholder="ถ้ามี">
       </div>
+      <div class="field">
+        <label for="ref">รหัสตัวแทน</label>
+        <input type="text" id="ref" name="ref" maxlength="32" autocomplete="off" placeholder="ถ้ามีตัวแทนแนะนำ ใส่รหัสที่ได้รับ" style="text-transform:uppercase">
+        <span class="hint" id="ref-hint">ไม่มีก็เว้นว่างได้</span>
+      </div>
     </fieldset>
 
     <fieldset>
@@ -548,6 +553,40 @@ footer a { color: inherit; }
   var submit = document.getElementById('submit');
   var modal = document.getElementById('modal');
   var source = (new URLSearchParams(location.search).get('src') || '').slice(0, 40);
+
+  /*
+   * รหัสตัวแทน (14 พ.ย. 2569) — ลิงก์ ?ref=CODE ที่ตัวแทนแจก จำไว้ 60 วัน ลูกค้าที่กดลิงก์วันนี้แล้วกลับมากรอกพรุ่งนี้ยังนับให้ตัวแทน
+   * ช่องในฟอร์มแก้ได้เอง (ลูกค้าที่ได้รหัสทางแชท) · เช็ครหัสกับเซิร์ฟเวอร์แล้วโชว์ "แนะนำโดย ..."
+   */
+  var REF_KEY = 'a1_ref';
+  var REF_API = 'https://isybspjpolddloxxnsli.supabase.co/functions/v1/license/ref';
+  var refInput = document.getElementById('ref');
+  var refHint = document.getElementById('ref-hint');
+  var refFromUrl = (new URLSearchParams(location.search).get('ref') || '').trim().toUpperCase();
+  if (/^[A-Z0-9-]{2,32}$/.test(refFromUrl)) {
+    try { localStorage.setItem(REF_KEY, JSON.stringify({ code: refFromUrl, at: Date.now() })); } catch (e) { /* ignore */ }
+    refInput.value = refFromUrl;
+  } else {
+    try {
+      var savedRef = JSON.parse(localStorage.getItem(REF_KEY) || 'null');
+      if (savedRef && savedRef.code && Date.now() - (savedRef.at || 0) < 60 * 24 * 3600 * 1000) refInput.value = savedRef.code;
+    } catch (e) { /* ignore */ }
+  }
+  var refTimer = null;
+  function checkRef() {
+    var code = refInput.value.trim().toUpperCase();
+    if (!code) { refHint.textContent = 'ไม่มีก็เว้นว่างได้'; return; }
+    if (!/^[A-Z0-9-]{2,32}$/.test(code)) { refHint.textContent = 'รหัสใช้ได้เฉพาะ A-Z 0-9 และขีด'; return; }
+    fetch(REF_API, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ code: code }) })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (refInput.value.trim().toUpperCase() !== code) return;
+        refHint.textContent = d && d.ok ? '✓ แนะนำโดย ' + (d.name || code) : 'ไม่พบรหัสนี้ — ตรวจอีกครั้ง หรือเว้นว่างไว้';
+      })
+      .catch(function () { refHint.textContent = ''; });
+  }
+  refInput.addEventListener('input', function () { clearTimeout(refTimer); refTimer = setTimeout(checkRef, 500); });
+  if (refInput.value) checkRef();
 
   function showError(msg) {
     alertBox.textContent = msg;
@@ -695,7 +734,8 @@ footer a { color: inherit; }
       platform: platformEl ? platformEl.value : '',
       message: val('message'),
       source: source,
-      website: val('website')
+      website: val('website'),
+      ref: val('ref').toUpperCase()
     };
 
     submit.disabled = true;
