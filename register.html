@@ -623,7 +623,10 @@ footer a { color: inherit; }
       .then(function (r) { return r.json(); })
       .then(function (d) {
         if (refInput.value.trim().toUpperCase() !== code) return;
-        refHint.textContent = d && d.ok ? '✓ แนะนำโดย ' + (d.name || code) : 'ไม่พบรหัสนี้ — ตรวจอีกครั้ง หรือเว้นว่างไว้';
+        // ตัวแทนรับหน้าที่ซัพพอร์ตเบื้องต้น — บอกลูกค้าตั้งแต่ตอนกรอกว่าใครจะดูแล ติดต่อทางไหน
+        refHint.textContent = d && d.ok
+          ? '✓ ตัวแทนที่จะดูแลคุณ: คุณ' + (d.name || code) + (d.line ? ' · LINE ' + d.line : '') + (d.phone ? ' · โทร ' + d.phone : '')
+          : 'ไม่พบรหัสนี้ — ตรวจอีกครั้ง หรือเว้นว่างไว้';
       })
       .catch(function () { refHint.textContent = ''; });
   }
@@ -690,6 +693,12 @@ footer a { color: inherit; }
     p.appendChild(document.createTextNode(
       ' · 1 เครื่อง · ทุกเมนู' + (t.emailed !== false ? ' — ส่งคีย์ไปที่ ' + t.email + ' ด้วยแล้ว (ไม่เห็นให้ดูโฟลเดอร์สแปม)' : '')
     ));
+    if (t.agent && t.agent.name) {
+      var ag = document.createElement('div');
+      ag.style.cssText = 'margin-top:8px;padding:10px 12px;border-radius:12px;background:var(--primary-ghost);color:var(--text);font-weight:600';
+      ag.textContent = '🙋 ตัวแทนที่ดูแลคุณ: คุณ' + t.agent.name + (t.agent.line ? ' · LINE ' + t.agent.line : '') + (t.agent.phone ? ' · โทร ' + t.agent.phone : '') + ' — ติดตั้งหรือตั้งค่าไม่ได้ ทักได้เลย';
+      p.appendChild(ag);
+    }
     if (t.platform === 'mac') document.getElementById('trial-install').href = './install.html#mac';
     trialDone.classList.add('show');
     form.style.display = 'none';
@@ -816,7 +825,7 @@ footer a { color: inherit; }
       }
       if (trial) {
         if (!data.serial) { showError('ขอทดลองใช้ไม่สำเร็จ — ลองใหม่อีกครั้ง หรือทักผู้ดูแลโดยตรง'); return; }
-        var t = { serial: data.serial, expiresAt: data.expiresAt, email: email, emailed: data.emailed, platform: payload.platform, returning: data.returning === true };
+        var t = { serial: data.serial, expiresAt: data.expiresAt, email: email, emailed: data.emailed, platform: payload.platform, returning: data.returning === true, agent: data.agent || null };
         try { localStorage.setItem(TRIAL_KEY, JSON.stringify(t)); } catch (err) { /* ignore */ }
         showTrial(t);
         return;
