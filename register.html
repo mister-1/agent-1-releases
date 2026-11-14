@@ -23,6 +23,16 @@
   ใช้ฟอนต์ระบบแทนการฝังฟอนต์อย่างคู่มือ — หน้านี้ต้องโหลดไวบนมือถือที่กดลิงก์มาจากแชท
   แนบ ?src=ชื่อช่องทาง ท้ายลิงก์ได้ (เช่น ?src=fb) จะติดไปกับคำขอให้แอดมินเห็นว่ามาจากไหน
 -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Agent-1">
+<meta property="og:title" content="Agent-1 — ทดลองใช้ฟรี 7 วัน / ขอ License Key">
+<meta property="og:description" content="ระบบผลิตคลิปและโพสต์อัตโนมัติด้วย AI — ทดลองใช้ฟรี 7 วัน ได้คีย์ทันที">
+<meta property="og:url" content="https://agent1-app.pages.dev/register">
+<meta property="og:image" content="https://agent1-app.pages.dev/media/brand/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="https://agent1-app.pages.dev/media/brand/icon-192.png">
 <style>
 :root {
   --bg: oklch(0.982 0.006 248);
@@ -370,11 +380,38 @@ footer {
   gap: 6px 18px;
 }
 footer a { color: inherit; }
+
+/* ── แถบแบรนด์ (ปกจากช่อง YouTube ทางการ + โลโก้ + ลิงก์เพจ) — ภาพอยู่ docs/media/brand ขึ้น Cloudflare ── */
+.brand { border-radius: 18px; overflow: hidden; border: 1px solid var(--line); background: #050b18; box-shadow: var(--shadow, 0 8px 24px rgb(0 0 0 / .08)); }
+.brand .cover { display: block; width: 100%; aspect-ratio: 16 / 6; object-fit: cover; object-position: 50% 40%; background: #050b18; }
+.brand-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; padding: 12px 16px; background: #071022; color: #e8eefc; }
+.brand-bar .brand-icon { width: 40px; height: 40px; border-radius: 10px; flex: none; }
+.brand-bar .brand-name { display: flex; flex-direction: column; line-height: 1.25; margin-right: auto; }
+.brand-bar .brand-name b { font-size: 16px; letter-spacing: .01em; }
+.brand-bar .brand-name span { font-size: 12.5px; color: #8fb4ff; }
+.social { display: flex; flex-wrap: wrap; gap: 8px; }
+.social a { display: inline-flex; align-items: center; gap: 7px; padding: 7px 12px; border-radius: 999px; font-size: 13px; font-weight: 700; text-decoration: none; color: #fff; border: 1px solid rgb(255 255 255 / .14); transition: filter .12s; }
+.social a:hover { filter: brightness(1.12); }
+.social a.fb { background: #1877f2; border-color: #1877f2; }
+.social a.yt { background: #e62117; border-color: #e62117; }
+.social svg { width: 16px; height: 16px; fill: currentColor; flex: none; }
 </style>
 </head>
 <body>
 <div class="wrap">
+  <div class="brand">
+    <img class="cover" src="https://agent1-app.pages.dev/media/brand/cover.jpg" alt="Agent-1 — AI Automation Platform" width="1600" height="900" fetchpriority="high">
+    <div class="brand-bar">
+      <img class="brand-icon" src="https://agent1-app.pages.dev/media/brand/icon-192.png" alt="" width="40" height="40">
+      <div class="brand-name"><b>Agent-1</b><span>AI Automation Platform</span></div>
+      <nav class="social" aria-label="ติดตาม Agent-1">
+        <a class="fb" href="https://www.facebook.com/Agent1AI" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.6-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.9v3h2.6V21h3z"/></svg>เพจ Facebook</a>
+        <a class="yt" href="https://www.youtube.com/@Agent-1.system" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2 26 26 0 0 0 2 12a26 26 0 0 0 .4 4.8 2.5 2.5 0 0 0 1.8 1.8C5.8 19 12 19 12 19s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8A26 26 0 0 0 22 12a26 26 0 0 0-.4-4.8zM10 15V9l5.2 3L10 15z"/></svg>YouTube</a>
+      </nav>
+    </div>
+  </div>
 
+  
   <header class="masthead">
     <p class="eyebrow buy-only">Agent-1 · ลงทะเบียนขอใบอนุญาต</p>
     <p class="eyebrow trial-only">Agent-1 · ทดลองใช้ฟรี</p>
@@ -534,6 +571,8 @@ footer a { color: inherit; }
     <span>มีใบอนุญาตอยู่แล้ว? ไม่ต้องกรอกใหม่ — เปิดโปรแกรมแล้วกรอก License Key เดิมได้เลย</span>
     <span><a href="./">คู่มือเริ่มต้นใช้งานฉบับเต็ม</a></span>
     <span><a href="https://agent1-app.pages.dev/agent">สนใจเป็นตัวแทนขาย? สมัครที่นี่</a></span>
+    <span><a href="https://www.facebook.com/Agent1AI" target="_blank" rel="noopener">เพจ Facebook Agent-1</a></span>
+    <span><a href="https://www.youtube.com/@Agent-1.system" target="_blank" rel="noopener">YouTube Agent-1</a></span>
   </footer>
 
 </div>
@@ -752,6 +791,23 @@ footer a { color: inherit; }
       try { data = await res.json(); } catch (err) { data = null; }
       if (!res.ok || !data || !data.ok) {
         showError((data && data.error) || 'ส่งไม่สำเร็จ (' + res.status + ') — ลองใหม่อีกครั้ง หรือทักผู้ดูแลโดยตรง');
+        /*
+         * ลูกค้าเก่าที่คีย์หมดแล้ว / เคยทดลองไปแล้ว — ไม่ต้องกรอกใหม่ ปุ่มเดียวสลับไปโหมดขอซื้อ ข้อมูลที่กรอกยังอยู่ครบ
+         * (เหลือแค่ช่อง "ชื่อโปรไฟล์ที่ทักมาในแชท" ที่โหมดซื้อบังคับ — โฟกัสให้เลย)
+         */
+        if (trial && data && (data.reason === 'expired_customer' || data.reason === 'trial_used')) {
+          var go = document.createElement('button');
+          go.type = 'button';
+          go.className = 'btn';
+          go.style.marginTop = '10px';
+          go.textContent = 'ส่งคำขอซื้อด้วยข้อมูลนี้';
+          go.addEventListener('click', function () {
+            setMode('buy');
+            form.elements.message.value = form.elements.message.value || 'ลูกค้าเก่า — อยากใช้ต่อ';
+            form.elements.inbox_name.focus();
+          });
+          alertBox.appendChild(go);
+        }
         return;
       }
       if (trial) {
