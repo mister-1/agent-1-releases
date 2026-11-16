@@ -350,6 +350,41 @@ textarea { resize: vertical; min-height: 84px; }
 body.trial .buy-only { display: none !important; }
 body:not(.trial) .trial-only { display: none !important; }
 /* ── คีย์ทดลองบนหน้าจอ ── */
+/* ชำระเงิน (16 พ.ย. 2569) — เลขบัญชี + ปุ่มคัดลอก + แนบสลิป */
+.pay { display: grid; gap: 14px; }
+.bank {
+  display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: center;
+  padding: 16px; border-radius: 14px; background: var(--sunken); border: 1px solid var(--line-soft);
+}
+.bank .logo {
+  width: 52px; height: 52px; border-radius: 12px; display: grid; place-items: center;
+  background: #0050f0; color: #fff; font-weight: 800; font-size: 17px; letter-spacing: .02em;
+}
+.bank .who { font-size: 13px; color: var(--muted); line-height: 1.55; }
+.bank .who b { color: var(--text); font-size: 14.5px; }
+.acct { grid-column: 1 / -1; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.acct code {
+  flex: 1 1 200px; font-family: var(--f-mono); font-size: 26px; font-weight: 700; letter-spacing: .08em;
+  padding: 10px 14px; border-radius: 10px; background: var(--surface); border: 1px dashed var(--line); color: var(--text);
+}
+.acct .btn { width: auto; padding: 12px 20px; }
+.acct .btn.copied { background: var(--ok); border-color: var(--ok); }
+.price { font-size: 15px; }
+.price b { font-size: 20px; color: var(--primary); }
+.slip-drop {
+  position: relative; display: grid; place-items: center; gap: 6px; text-align: center;
+  min-height: 130px; padding: 18px; border-radius: 14px; cursor: pointer;
+  border: 2px dashed var(--line); background: var(--surface); color: var(--muted); font-size: 14px;
+}
+.slip-drop:hover, .slip-drop.over { border-color: var(--primary); background: var(--primary-ghost); }
+.slip-drop.bad { border-color: var(--danger); background: var(--danger-ghost); }
+.slip-drop input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.slip-drop .big { font-size: 28px; }
+.slip-drop img { max-height: 260px; max-width: 100%; border-radius: 10px; box-shadow: var(--shadow); }
+.slip-result { padding: 12px 14px; border-radius: 12px; font-size: 14px; line-height: 1.55; margin: 12px 0 0; }
+.slip-result.ok { background: var(--ok-ghost); color: var(--ok); }
+.slip-result.warn { background: var(--danger-ghost); color: var(--danger); }
+.slip-result.info { background: var(--primary-ghost); color: var(--primary-strong); }
 .keybox {
   display: flex;
   flex-wrap: wrap;
@@ -424,8 +459,8 @@ footer a { color: inherit; }
       ใช้ได้ทุกเมนู 1 เครื่อง ไม่ต้องผูกบัตร ไม่ต้องรอแอดมิน
     </p>
     <p class="lede buy-only">
-      ใช้เวลาไม่ถึง 2 นาที <b>ผู้ดูแลจะตรวจสอบแล้วส่ง License Key ให้ทางช่องทางที่คุณให้ไว้</b>
-      ระหว่างรอ อ่านคู่มือและดาวน์โหลดตัวติดตั้งเตรียมไว้ได้เลย
+      <b>โอนเงิน → แนบสลิป → กรอกข้อมูล</b> ระบบตรวจยอดกับธนาคารให้ทันที
+      แล้วผู้ดูแลส่ง License Key ให้ทางช่องทางที่คุณให้ไว้ ระหว่างรอ ดาวน์โหลดตัวติดตั้งเตรียมไว้ได้เลย
     </p>
   </header>
 
@@ -473,6 +508,7 @@ footer a { color: inherit; }
   <section class="done" id="done" aria-live="polite">
     <h2><span class="tick">✓</span> ได้รับข้อมูลของคุณแล้ว</h2>
     <p id="done-text">ผู้ดูแลจะตรวจสอบและติดต่อกลับพร้อม License Key ทางช่องทางที่คุณให้ไว้</p>
+    <p class="slip-result" id="slip-result" hidden></p>
     <ol>
       <li><b>อ่านคู่มือก่อนติดตั้ง</b> — Windows จะเตือนและบล็อกตัวติดตั้ง เป็นเรื่องปกติ ในคู่มือมีวิธีปลดล็อกทีละจอ</li>
       <li><b>ดาวน์โหลดตัวติดตั้ง</b>ให้ตรงกับเครื่องของคุณ</li>
@@ -487,6 +523,31 @@ footer a { color: inherit; }
   </section>
 
   <form class="card" id="form" novalidate>
+    <fieldset class="buy-only">
+      <legend>ชำระเงิน<small>โอนเข้าบัญชีด้านล่าง แล้วแนบสลิป — ระบบตรวจกับธนาคารให้อัตโนมัติ</small></legend>
+      <div class="pay">
+        <p class="price">ราคา <b>1,888 บาท</b> · จ่ายครั้งเดียว ใช้ได้ตลอดไป</p>
+        <div class="bank">
+          <div class="logo" aria-hidden="true">ttb</div>
+          <div class="who"><b>ธนาคารทหารไทยธนชาต (ttb)</b><br>ชื่อบัญชี นายสิทธิโชค ตั้งทรัพยากร</div>
+          <div class="acct">
+            <code id="acct-no" aria-label="เลขที่บัญชี 460-2-25077-3">460-2-25077-3</code>
+            <button class="btn" type="button" id="acct-copy">คัดลอกเลขบัญชี</button>
+          </div>
+        </div>
+        <div class="field">
+          <label for="slip">แนบสลิปการโอน<span class="req">*</span></label>
+          <label class="slip-drop" id="slip-drop">
+            <input type="file" id="slip" accept="image/*">
+            <span class="big" aria-hidden="true">🧾</span>
+            <span id="slip-label"><b>แตะเพื่อเลือกรูปสลิป</b><br>ภาพหน้าจอจากแอปธนาคารได้เลย ต้องเห็น QR มุมสลิปชัด ๆ</span>
+            <img id="slip-preview" alt="ตัวอย่างสลิปที่เลือก" hidden>
+          </label>
+          <span class="hint">ระบบอ่าน QR บนสลิปแล้วถามธนาคารว่ายอดเข้าจริงไหม — สลิปตัดต่อ/สลิปเก่าใช้ไม่ได้</span>
+        </div>
+      </div>
+    </fieldset>
+
     <fieldset>
       <legend>ข้อมูลของคุณ</legend>
       <div class="row">
@@ -633,6 +694,92 @@ footer a { color: inherit; }
   refInput.addEventListener('input', function () { clearTimeout(refTimer); refTimer = setTimeout(checkRef, 500); });
   if (refInput.value) checkRef();
 
+  /*
+   * ชำระเงิน (16 พ.ย. 2569) — ปุ่มคัดลอกเลขบัญชีเป็นตัวเลขติดกัน 10 หลัก (แอปธนาคารวางได้ทันที ไม่ต้องลบขีด)
+   * สลิป: อ่านเป็น data URL ส่งไปกับฟอร์ม · รูปใหญ่ย่อเหลือด้านยาว 2000px ก่อน (QR ยังอ่านได้ ส่งเร็วบนมือถือ)
+   */
+  var ACCOUNT_DIGITS = '4602250773';
+  var acctCopy = document.getElementById('acct-copy');
+  acctCopy.addEventListener('click', function () {
+    function ok() {
+      acctCopy.textContent = '✓ คัดลอกแล้ว ' + ACCOUNT_DIGITS;
+      acctCopy.classList.add('copied');
+      setTimeout(function () { acctCopy.textContent = 'คัดลอกเลขบัญชี'; acctCopy.classList.remove('copied'); }, 2500);
+    }
+    function fallback() {
+      var t = document.createElement('textarea');
+      t.value = ACCOUNT_DIGITS; t.setAttribute('readonly', ''); t.style.position = 'fixed'; t.style.opacity = '0';
+      document.body.appendChild(t); t.select();
+      try { document.execCommand('copy'); ok(); } catch (e) { acctCopy.textContent = ACCOUNT_DIGITS; }
+      document.body.removeChild(t);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(ACCOUNT_DIGITS).then(ok, fallback);
+    else fallback();
+  });
+
+  var slipData = '';
+  var slipInput = document.getElementById('slip');
+  var slipDrop = document.getElementById('slip-drop');
+  var slipLabel = document.getElementById('slip-label');
+  var slipPreview = document.getElementById('slip-preview');
+  function readAsDataUrl(file) {
+    return new Promise(function (resolve, reject) {
+      var r = new FileReader();
+      r.onload = function () { resolve(String(r.result || '')); };
+      r.onerror = reject;
+      r.readAsDataURL(file);
+    });
+  }
+  function shrink(dataUrl) {
+    return new Promise(function (resolve) {
+      var img = new Image();
+      img.onload = function () {
+        var max = 2000, w = img.naturalWidth, h = img.naturalHeight, k = Math.min(1, max / Math.max(w, h));
+        var c = document.createElement('canvas');
+        c.width = Math.round(w * k); c.height = Math.round(h * k);
+        var g = c.getContext('2d');
+        g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height);
+        g.drawImage(img, 0, 0, c.width, c.height);
+        resolve(c.toDataURL('image/jpeg', 0.9));
+      };
+      img.onerror = function () { resolve(''); };
+      img.src = dataUrl;
+    });
+  }
+  async function pickSlip(file) {
+    slipDrop.classList.remove('bad');
+    if (!file) return;
+    if (!/^image\//.test(file.type)) { slipData = ''; slipLabel.innerHTML = '<b>ไฟล์นี้ไม่ใช่รูปภาพ</b><br>เลือกภาพสลิป (JPG/PNG)'; return; }
+    slipLabel.textContent = 'กำลังอ่านรูป…';
+    try {
+      var url = await readAsDataUrl(file);
+      var keep = /^data:image\/(jpeg|png|webp);/.test(url) && file.size <= 2.5 * 1024 * 1024;
+      slipData = keep ? url : await shrink(url);
+    } catch (e) { slipData = ''; }
+    if (!slipData) { slipLabel.innerHTML = '<b>เปิดรูปนี้ไม่ได้</b><br>ลองแคปหน้าจอสลิปใหม่แล้วเลือกอีกครั้ง'; return; }
+    slipPreview.src = slipData;
+    slipPreview.hidden = false;
+    slipLabel.innerHTML = '<b>✓ แนบสลิปแล้ว</b> — แตะเพื่อเปลี่ยนรูป';
+  }
+  slipInput.addEventListener('change', function () { pickSlip(slipInput.files && slipInput.files[0]); });
+  ['dragenter', 'dragover'].forEach(function (ev) { slipDrop.addEventListener(ev, function (e) { e.preventDefault(); slipDrop.classList.add('over'); }); });
+  ['dragleave', 'drop'].forEach(function (ev) { slipDrop.addEventListener(ev, function () { slipDrop.classList.remove('over'); }); });
+  slipDrop.addEventListener('drop', function (e) {
+    e.preventDefault();
+    var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+    if (f) pickSlip(f);
+  });
+  function showSlipResult(slip) {
+    var box = document.getElementById('slip-result');
+    if (!slip) { box.hidden = true; return; }
+    box.className = 'slip-result ' + (slip.status === 'verified' ? 'ok' : (slip.status === 'unchecked' || slip.status === 'pending') ? 'info' : 'warn');
+    var head = slip.status === 'verified'
+      ? '✓ ตรวจสลิปผ่าน' + (slip.amount ? ' — ยอด ' + Number(slip.amount).toLocaleString('th-TH') + ' บาท' : '')
+      : 'สลิปการโอน';
+    box.textContent = head + ' · ' + (slip.note || '');
+    box.hidden = false;
+  }
+
   function showError(msg) {
     alertBox.textContent = msg;
     alertBox.classList.add('show');
@@ -755,6 +902,7 @@ footer a { color: inherit; }
   form.addEventListener('submit', async function (e) {
     e.preventDefault();
     clearError();
+    slipDrop.classList.remove('bad');
 
     var email = val('owner_email').toLowerCase();
     var firstName = val('first_name');
@@ -768,10 +916,12 @@ footer a { color: inherit; }
     }
     if (mode === 'buy' && !val('inbox_name')) { missing.push('ชื่อโปรไฟล์ที่ทักมาในแชท'); form.elements.inbox_name.classList.add('bad'); }
     if (!val('phone')) { missing.push('เบอร์โทรศัพท์'); form.elements.phone.classList.add('bad'); }
+    if (mode === 'buy' && !slipData) { missing.push('สลิปการโอน'); slipDrop.classList.add('bad'); }
     if (missing.length) {
       showError('กรุณากรอก: ' + missing.join(' · '));
       var firstBad = form.querySelector('input.bad');
       if (firstBad) firstBad.focus();
+      else if (slipDrop.classList.contains('bad')) slipDrop.scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
     }
 
@@ -788,11 +938,12 @@ footer a { color: inherit; }
       message: val('message'),
       source: source,
       website: val('website'),
-      ref: val('ref').toUpperCase()
+      ref: val('ref').toUpperCase(),
+      slip: mode === 'buy' ? slipData : ''
     };
 
     submit.disabled = true;
-    submit.textContent = 'กำลังส่ง…';
+    submit.textContent = mode === 'buy' ? 'กำลังส่งและตรวจสลิปกับธนาคาร…' : 'กำลังส่ง…';
     try {
       var trial = mode === 'trial';
       var res = await fetch(trial ? TRIAL_API : API, {
@@ -832,6 +983,7 @@ footer a { color: inherit; }
       }
       try { localStorage.setItem(SENT_KEY, JSON.stringify({ email: email, at: Date.now() })); } catch (err) { /* ignore */ }
       showDone(email, data.duplicate === true);
+      showSlipResult(data.slip || null);
       modal.classList.add('show');
     } catch (err) {
       showError('ต่อเซิร์ฟเวอร์ไม่ได้ — เช็คอินเทอร์เน็ตแล้วลองใหม่ หรือทักผู้ดูแลโดยตรง');
