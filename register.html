@@ -366,10 +366,12 @@ body:not(.trial) .trial-only { display: none !important; }
 .bank .who b { color: var(--text); font-size: 14.5px; }
 .acct { grid-column: 1 / -1; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 .acct code {
-  flex: 1 1 200px; font-family: var(--f-mono); font-size: 26px; font-weight: 700; letter-spacing: .08em;
+  flex: 1 1 200px; font-family: var(--f-mono); font-size: clamp(19px, 6.2vw, 26px); font-weight: 700; letter-spacing: .06em;
+  white-space: nowrap; text-align: center;
   padding: 10px 14px; border-radius: 10px; background: var(--surface); border: 1px dashed var(--line); color: var(--text);
 }
 .acct .btn { width: auto; padding: 12px 20px; }
+@media (max-width: 420px) { .acct .btn { width: 100%; } .bank { gap: 12px; padding: 14px; } .bank .who b { font-size: 13.5px; } }
 .acct .btn.copied { background: var(--ok); border-color: var(--ok); }
 .price { font-size: 15px; }
 .price b { font-size: 20px; color: var(--primary); }
@@ -531,7 +533,7 @@ footer a { color: inherit; }
         <p class="price">ราคา <b>1,888 บาท</b> · จ่ายครั้งเดียว ใช้ได้ตลอดไป</p>
         <div class="bank">
           <div class="logo"><img src="https://agent1-app.pages.dev/media/brand/ttb.png" alt="ttb" width="360" height="180"></div>
-          <div class="who"><b>ธนาคารทหารไทยธนชาต (ttb)</b><br>ชื่อบัญชี <span style="white-space:nowrap">นายสิทธิโชค ตั้งทรัพยากร</span></div>
+          <div class="who"><b><span style="white-space:nowrap">ธนาคารทหารไทยธนชาต</span> (ttb)</b><br>ชื่อบัญชี <span style="white-space:nowrap">นายสิทธิโชค ตั้งทรัพยากร</span></div>
           <div class="acct">
             <code id="acct-no" aria-label="เลขที่บัญชี 460-2-25077-3">460-2-25077-3</code>
             <button class="btn" type="button" id="acct-copy">คัดลอกเลขบัญชี</button>
