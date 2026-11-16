@@ -320,7 +320,7 @@ textarea { resize: vertical; min-height: 84px; }
   display: block; margin: 0; padding: 12px 14px; border-radius: 12px; text-align: left;
   background: var(--primary-ghost); border: 1px solid var(--primary); color: var(--text); font-size: 14px; line-height: 1.6;
 }
-.mailnote b.addr { color: var(--primary); word-break: break-all; }
+.mailnote b.addr { display: block; color: var(--primary); overflow-wrap: anywhere; }
 .mailnote small { display: block; color: var(--muted); font-size: 12.5px; margin-top: 2px; }
 .modal p b { color: var(--text); font-weight: 600; }
 
@@ -511,7 +511,7 @@ footer a { color: inherit; }
       <div class="emoji">📬</div>
       <h2 id="modal-title">ส่งข้อมูลเรียบร้อยแล้วครับ</h2>
       <p>ทางแอดมินจะตรวจยอดเงิน แล้วส่ง <b>โปรแกรมติดตั้ง</b> และ <b>รหัสซีเรียล (License Key)</b> ให้ทาง <b>Inbox</b> ที่คุณทักมา</p>
-      <p class="mailnote">📧 <b>ตรวจสอบรหัสซีเรียลที่อีเมล</b><br><b class="addr" id="modal-email"></b><small>ส่งตามไปหลังแอดมินอนุมัติ — ถ้าไม่เจอใน "กล่องจดหมาย" ให้ดูที่ <b>สแปม / จดหมายขยะ / โปรโมชัน</b></small></p>
+      <p class="mailnote"><b>📧 ตรวจสอบรหัสซีเรียลที่อีเมล</b><b class="addr" id="modal-email"></b><small>ส่งตามไปหลังแอดมินอนุมัติ — ถ้าไม่เจอใน "กล่องจดหมาย" ให้ดูที่ <b>สแปม / จดหมายขยะ / โปรโมชัน</b></small></p>
       <button class="btn" type="button" id="modal-ok">รับทราบ</button>
     </div>
   </div>
@@ -855,7 +855,7 @@ footer a { color: inherit; }
       var mn = document.createElement('span');
       mn.className = 'mailnote';
       mn.style.marginTop = '10px';
-      mn.appendChild(document.createTextNode('📧 ส่งรหัสซีเรียลไปที่อีเมลแล้ว — ตรวจสอบได้ที่ '));
+      var hd = document.createElement('b'); hd.textContent = '📧 ส่งรหัสซีเรียลไปที่อีเมลแล้ว ตรวจสอบได้ที่'; mn.appendChild(hd);
       var ad = document.createElement('b'); ad.className = 'addr'; ad.textContent = t.email; mn.appendChild(ad);
       var sm = document.createElement('small');
       sm.textContent = 'เก็บอีเมลนี้ไว้ ใช้ตอนย้ายเครื่อง · ไม่เจอให้ดูที่สแปม / จดหมายขยะ / โปรโมชัน';
