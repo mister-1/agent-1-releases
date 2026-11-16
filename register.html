@@ -459,8 +459,8 @@ footer a { color: inherit; }
       ใช้ได้ทุกเมนู 1 เครื่อง ไม่ต้องผูกบัตร ไม่ต้องรอแอดมิน
     </p>
     <p class="lede buy-only">
-      <b>โอนเงิน → แนบสลิป → กรอกข้อมูล</b> ระบบตรวจยอดกับธนาคารให้ทันที
-      แล้วผู้ดูแลส่ง License Key ให้ทางช่องทางที่คุณให้ไว้ ระหว่างรอ ดาวน์โหลดตัวติดตั้งเตรียมไว้ได้เลย
+      <b>โอนเงิน → แนบสลิป → กรอกข้อมูล</b>
+      ผู้ดูแลตรวจยอดเงินเข้าแล้วส่ง License Key ให้ทางช่องทางที่คุณให้ไว้ ระหว่างรอ ดาวน์โหลดตัวติดตั้งเตรียมไว้ได้เลย
     </p>
   </header>
 
@@ -524,7 +524,7 @@ footer a { color: inherit; }
 
   <form class="card" id="form" novalidate>
     <fieldset class="buy-only">
-      <legend>ชำระเงิน<small>โอนเข้าบัญชีด้านล่าง แล้วแนบสลิป — ระบบตรวจกับธนาคารให้อัตโนมัติ</small></legend>
+      <legend>ชำระเงิน<small>โอนเข้าบัญชีด้านล่าง แล้วแนบสลิปการโอน</small></legend>
       <div class="pay">
         <p class="price">ราคา <b>1,888 บาท</b> · จ่ายครั้งเดียว ใช้ได้ตลอดไป</p>
         <div class="bank">
@@ -540,10 +540,10 @@ footer a { color: inherit; }
           <label class="slip-drop" id="slip-drop">
             <input type="file" id="slip" accept="image/*">
             <span class="big" aria-hidden="true">🧾</span>
-            <span id="slip-label"><b>แตะเพื่อเลือกรูปสลิป</b><br>ภาพหน้าจอจากแอปธนาคารได้เลย ต้องเห็น QR มุมสลิปชัด ๆ</span>
+            <span id="slip-label"><b>แตะเพื่อเลือกรูปสลิป</b><br>ภาพหน้าจอสลิปจากแอปธนาคารได้เลย</span>
             <img id="slip-preview" alt="ตัวอย่างสลิปที่เลือก" hidden>
           </label>
-          <span class="hint">ระบบอ่าน QR บนสลิปแล้วถามธนาคารว่ายอดเข้าจริงไหม — สลิปตัดต่อ/สลิปเก่าใช้ไม่ได้</span>
+          <span class="hint">สลิปส่งถึงผู้ดูแลทันที ตรวจยอดเงินเข้าแล้วส่ง License Key ให้ทางแชทและอีเมล</span>
         </div>
       </div>
     </fieldset>
@@ -943,7 +943,7 @@ footer a { color: inherit; }
     };
 
     submit.disabled = true;
-    submit.textContent = mode === 'buy' ? 'กำลังส่งและตรวจสลิปกับธนาคาร…' : 'กำลังส่ง…';
+    submit.textContent = mode === 'buy' ? 'กำลังส่งข้อมูลและสลิป…' : 'กำลังส่ง…';
     try {
       var trial = mode === 'trial';
       var res = await fetch(trial ? TRIAL_API : API, {
