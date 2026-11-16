@@ -674,6 +674,7 @@ footer a { color: inherit; }
    * มาจากลิงก์ตัวแทน (?ref= หรือจำไว้ 60 วัน) = ล็อกช่องไม่ให้ลบ/แก้ (16 พ.ย. 2569 ตัวแทนขอ) · รหัสใช้ไม่ได้ค่อยปลดล็อก
    */
   var REF_KEY = 'a1_ref';
+  var OPENCHAT_URL = 'https://line.me/ti/g2/iCJZUUD7N92f24EfOwhsOMotM1NrYi50lZHCvg?utm_source=invitation&utm_medium=link_copy&utm_campaign=default';
   var REF_API = 'https://isybspjpolddloxxnsli.supabase.co/functions/v1/license/ref';
   var refInput = document.getElementById('ref');
   var refHint = document.getElementById('ref-hint');
@@ -705,9 +706,14 @@ footer a { color: inherit; }
       .then(function (d) {
         if (refInput.value.trim().toUpperCase() !== code) return;
         // ตัวแทนรับหน้าที่ซัพพอร์ตเบื้องต้น — บอกลูกค้าตั้งแต่ตอนกรอกว่าใครจะดูแล ติดต่อทางไหน
-        refHint.textContent = d && d.ok
-          ? '✓ ตัวแทนที่จะดูแลคุณ: คุณ' + (d.name || code) + (d.line ? ' · LINE ' + d.line : '') + (d.phone ? ' · โทร ' + d.phone : '') + (refLocked ? ' · 🔒 จากลิงก์ของตัวแทน' : '')
-          : 'ไม่พบรหัสนี้ — ตรวจอีกครั้ง หรือเว้นว่างไว้';
+        refHint.textContent = '';
+        if (d && d.ok) {
+          refHint.appendChild(document.createTextNode('✓ รหัสตัวแทนถูกต้อง' + (refLocked ? ' · 🔒 จากลิงก์ของตัวแทน' : '') + ' · ติดปัญหาถามได้ที่ '));
+          var oc = document.createElement('a');
+          oc.href = OPENCHAT_URL; oc.target = '_blank'; oc.rel = 'noopener'; oc.textContent = 'โอเพนแชท Agent-1';
+          refHint.appendChild(oc);
+          refHint.appendChild(document.createTextNode(' (รหัสเข้ากลุ่ม agent-1)'));
+        } else refHint.textContent = 'ไม่พบรหัสนี้ — ตรวจอีกครั้ง หรือเว้นว่างไว้';
         // รหัสในลิงก์ใช้ไม่ได้ (ตัวแทนพัก/พิมพ์ผิด) — ปลดล็อกให้ลูกค้าแก้หรือลบได้
         if (!(d && d.ok) && refLocked) lockRef(false);
       })
@@ -873,12 +879,15 @@ footer a { color: inherit; }
       mn.appendChild(sm);
       p.appendChild(mn);
     }
-    if (t.agent && t.agent.name) {
-      var ag = document.createElement('div');
-      ag.style.cssText = 'margin-top:8px;padding:10px 12px;border-radius:12px;background:var(--primary-ghost);color:var(--text);font-weight:600';
-      ag.textContent = '🙋 ตัวแทนที่ดูแลคุณ: คุณ' + t.agent.name + (t.agent.line ? ' · LINE ' + t.agent.line : '') + (t.agent.phone ? ' · โทร ' + t.agent.phone : '') + ' — ติดตั้งหรือตั้งค่าไม่ได้ ทักได้เลย';
-      p.appendChild(ag);
-    }
+    // ติดปัญหา → โอเพนแชท Agent-1 (ไม่แสดงชื่อ/เบอร์ตัวแทน — 16 พ.ย. 2569)
+    var ag = document.createElement('div');
+    ag.style.cssText = 'margin-top:8px;padding:10px 12px;border-radius:12px;background:var(--primary-ghost);color:var(--text);font-weight:600';
+    ag.appendChild(document.createTextNode('💬 ติดตั้งหรือตั้งค่าไม่ได้ ถามได้ที่ '));
+    var oca = document.createElement('a');
+    oca.href = OPENCHAT_URL; oca.target = '_blank'; oca.rel = 'noopener'; oca.textContent = 'กลุ่มโอเพนแชท Agent-1';
+    ag.appendChild(oca);
+    ag.appendChild(document.createTextNode(' (รหัสเข้ากลุ่ม agent-1)'));
+    p.appendChild(ag);
     if (t.platform === 'mac') document.getElementById('trial-install').href = './install.html#mac';
     trialDone.classList.add('show');
     form.style.display = 'none';
