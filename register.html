@@ -593,8 +593,8 @@ footer a { color: inherit; }
           <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" maxlength="40" required placeholder="08X-XXX-XXXX">
         </div>
         <div class="field">
-          <label for="contact_line">LINE ID</label>
-          <input type="text" id="contact_line" name="contact_line" maxlength="200" placeholder="@lineid หรือลิงก์ line.me">
+          <label for="contact_line">LINE ID<span class="req">*</span></label>
+          <input type="text" id="contact_line" name="contact_line" maxlength="200" required placeholder="@lineid หรือลิงก์ line.me">
         </div>
       </div>
       <div class="field">
@@ -958,6 +958,7 @@ footer a { color: inherit; }
     }
     if (mode === 'buy' && !val('inbox_name')) { missing.push('ชื่อโปรไฟล์ที่ทักมาในแชท'); form.elements.inbox_name.classList.add('bad'); }
     if (!val('phone')) { missing.push('เบอร์โทรศัพท์'); form.elements.phone.classList.add('bad'); }
+    if (!val('contact_line')) { missing.push('LINE ID'); form.elements.contact_line.classList.add('bad'); }
     if (mode === 'buy' && !slipData) { missing.push('สลิปการโอน'); slipDrop.classList.add('bad'); }
     if (missing.length) {
       showError('กรุณากรอก: ' + missing.join(' · '));
