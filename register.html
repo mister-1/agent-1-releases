@@ -942,6 +942,48 @@ footer a { color: inherit; }
     form.elements.first_name.focus();
   });
 
+  /*
+   * มาจากปุ่ม "ซื้อ License Key" ในแอป (?t=ตั๋ว · 26 พ.ย. 2569) — ดึงข้อมูลที่กรอกไว้ตอนทดลองมาเติมให้
+   * ชื่อ อีเมล เบอร์ LINE ชื่อแชท ระบบ + รหัสตัวแทนที่ผูกไว้ (ล็อกช่อง) ลูกค้าไม่ต้องพิมพ์ใหม่ เหลือแนบสลิปแล้วส่ง
+   * ตั๋วเสีย/หมดอายุ = ฟอร์มว่างตามปกติ · ช่องที่ลูกค้าพิมพ์ไว้แล้วไม่ทับ
+   */
+  var ticket = (params.get('t') || '').trim();
+  if (ticket && mode === 'buy') {
+    fetch('https://isybspjpolddloxxnsli.supabase.co/functions/v1/license/buy-prefill', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ t: ticket })
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (!d || !d.ok || !d.data) return;
+        // เพิ่งส่งไปจากเครื่องนี้ (หน้า "ส่งแล้ว") — ไม่ต้องเปิดฟอร์มทับ
+        if (done.classList.contains('show')) return;
+        ['first_name', 'last_name', 'owner_email', 'phone', 'contact_line', 'inbox_name'].forEach(function (k) {
+          var el = form.elements[k];
+          if (el && !String(el.value || '').trim() && d.data[k]) el.value = d.data[k];
+        });
+        if (d.data.platform) {
+          var pr = form.querySelector('input[name="platform"][value="' + d.data.platform + '"]');
+          if (pr && !form.querySelector('input[name="platform"]:checked')) pr.checked = true;
+        }
+        if (!String(form.elements.message.value || '').trim()) {
+          form.elements.message.value = d.trial ? 'ทดลองใช้แล้ว อยากใช้ต่อ' : 'อยากซื้อ/ต่ออายุ License Key';
+        }
+        if (d.ref) {
+          refInput.value = d.ref;
+          lockRef(true);
+          checkRef();
+        }
+        var note = document.createElement('p');
+        note.className = 'hint';
+        note.style.cssText = 'margin:0 0 14px;padding:10px 12px;border-radius:8px;background:rgba(26,86,219,.08);color:inherit';
+        note.textContent = '✓ เติมข้อมูลจากตอนทดลองใช้ให้แล้ว — ตรวจให้ถูก แนบสลิปโอนเงิน แล้วกดส่งได้เลย';
+        form.insertBefore(note, form.firstChild);
+      })
+      .catch(function () { /* ดึงไม่ได้ก็กรอกเองตามปกติ */ });
+  }
+
   form.addEventListener('submit', async function (e) {
     e.preventDefault();
     clearError();
