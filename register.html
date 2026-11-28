@@ -654,6 +654,48 @@ footer a { color: inherit; }
 
 <script>
 (function () {
+  /*
+   * Agent-1 Hub ขั้น 3 — ลิงก์ตัวแทนของโปรแกรมอื่น: /register?product=<id>&ref=<CODE>
+   * ไม่มี product หรือ product=agent1 = หน้าเดิมทุกอย่าง
+   * โปรแกรมอื่น: ถาม /hub/products → พร้อมขาย + มีหน้าลงทะเบียน = ส่งต่อไปพร้อมรหัสตัวแทน · ยังไม่พร้อม = บอก "เร็ว ๆ นี้"
+   * (ห้ามตกลงไปฟอร์มของ agent-1 — ลูกค้าจะได้คีย์ผิดโปรแกรม)
+   */
+  var HUB_PRODUCTS = 'https://isybspjpolddloxxnsli.supabase.co/functions/v1/hub/products';
+  var qs0 = new URLSearchParams(location.search);
+  var product = (qs0.get('product') || '').trim().toLowerCase();
+  if (product && product !== 'agent1') {
+    var wrap = document.querySelector('.wrap');
+    Array.prototype.forEach.call(wrap.children, function (el) {
+      // style.display ไม่ใช่ hidden — บางส่วน (.modes, .modal) ตั้ง display ไว้ใน CSS ซึ่งชนะ hidden
+      if (!el.classList.contains('brand') && el.tagName !== 'FOOTER') el.style.display = 'none';
+    });
+    var card = document.createElement('section');
+    card.className = 'card'; card.setAttribute('aria-live', 'polite');
+    var h = document.createElement('h1'); h.textContent = 'กำลังพาไปหน้าลงทะเบียน…'; card.appendChild(h);
+    var p = document.createElement('p'); p.className = 'lede'; card.appendChild(p);
+    wrap.insertBefore(card, wrap.querySelector('footer'));
+    var say = function (title, text) { h.textContent = title; p.textContent = text; };
+    var ref0 = (qs0.get('ref') || '').trim().toUpperCase();
+    fetch(HUB_PRODUCTS)
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        var x = ((d && d.products) || []).filter(function (it) { return it.id === product; })[0];
+        if (!x) return say('ไม่พบโปรแกรมนี้', 'ลิงก์อาจพิมพ์ผิด — ขอลิงก์ใหม่จากตัวแทนที่แนะนำคุณ');
+        var url = String(x.registerUrl || '');
+        if (x.status === 'on_sale' && /^https:\/\//.test(url)) {
+          var u = new URL(url);
+          if (/^[A-Z0-9-]{2,32}$/.test(ref0)) u.searchParams.set('ref', ref0);
+          ['src', 'mode'].forEach(function (k) { if (qs0.get(k)) u.searchParams.set(k, qs0.get(k).slice(0, 40)); });
+          location.replace(u.toString());
+          return;
+        }
+        if (x.status === 'coming_soon') return say(x.name + ' — เร็ว ๆ นี้', 'โปรแกรมนี้ยังไม่เปิดขาย เปิดเมื่อไรตัวแทนที่แนะนำคุณจะแจ้งอีกครั้ง');
+        say(x.name + ' ยังไม่เปิดรับลงทะเบียน', 'ติดต่อตัวแทนที่แนะนำคุณ');
+      })
+      .catch(function () { say('โหลดไม่สำเร็จ', 'ตรวจอินเทอร์เน็ตแล้วลองเปิดลิงก์อีกครั้ง'); });
+    return;
+  }
+
   // เส้นทางเดียวกับที่แอปใช้ยืนยันใบอนุญาต (LICENSE_API_URL ใน packages/shared/src/license-api.ts) + /request
   var API = 'https://isybspjpolddloxxnsli.supabase.co/functions/v1/license/request';
   // ทดลองใช้ฟรี (0.398.0) — ได้ซีเรียลกลับมาทันที ดู handleTrial ใน supabase/functions/license/index.ts
